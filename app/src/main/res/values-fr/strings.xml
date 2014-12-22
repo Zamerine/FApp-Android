@@ -3,4 +3,14 @@
     <string name="addContainer">Ajouter un conteneur</string>
     <string name="action_settings">Paramètres</string>
     <string name="addItem">Ajouter un aliment</string>
+    <string name="search">Recherche</string>
+    <string name="title_activity_container"></string>
+    <string name="title_activity_search_page">Page de recherche</string>
+    <string name="hello_world">Salut le monde ! </string>
+    <string name="containerText">Contenant</string>
+    <string name="foodTypeTitle">Type de nourriture</string>
+    <string name="seekNbDaysPeremp">Nombre de jours avant péremption</string>
+    <string name="validateBtn">Valider</string>
+    <string name="fastSearchTitle">Recherche rapide</string>
+    <string name="fastSearchBtn">Aliments presque périmés</string>
 </resources>

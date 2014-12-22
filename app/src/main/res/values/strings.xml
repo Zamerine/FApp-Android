@@ -6,5 +6,14 @@
     <string name="addContainer">Add Container</string>
     <string name="title_activity_container">ContainerActivity</string>
     <string name="addItem">Add food</string>
+    <string name="title_activity_search_page">Search Page</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="search">Search</string>
+    <string name="containerText">Container</string>
+    <string name="foodTypeTitle">Type of food</string>
+    <string name="seekNbDaysPeremp">Number of days before peremption</string>
+    <string name="validateBtn">Validate</string>
+    <string name="fastSearchTitle">Fast search</string>
+    <string name="fastSearchBtn">Almost expired food</string>
 
 </resources>
