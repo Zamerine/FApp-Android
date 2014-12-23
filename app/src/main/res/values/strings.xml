@@ -4,7 +4,7 @@
     <string name="app_name" translatable="false">FApp</string>
     <string name="action_settings">Settings</string>
     <string name="addContainer">Add Container</string>
-    <string name="title_activity_container">ContainerActivity</string>
+    <string name="title_activity_container">Container</string>
     <string name="addItem">Add food</string>
     <string name="title_activity_search_page">Search Page</string>
     <string name="hello_world">Hello world!</string>
@@ -15,5 +15,9 @@
     <string name="validateBtn">Validate</string>
     <string name="fastSearchTitle">Fast search</string>
     <string name="fastSearchBtn">Almost expired food</string>
+    <string name="title_activity_search_result">Search Result</string>
+    <string name="columnName">Name</string>
+    <string name="columnQty">Quantity</string>
+    <string name="columnExpiration">Expiration Date</string>
 
 </resources>
