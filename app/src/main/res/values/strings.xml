@@ -6,7 +6,7 @@
     <string name="addContainer">Add Container</string>
     <string name="title_activity_container">Container</string>
     <string name="addItem">Add food</string>
-    <string name="title_activity_search_page">Search Page</string>
+    <string name="title_activity_search_page">Search</string>
     <string name="hello_world">Hello world!</string>
     <string name="search">Search</string>
     <string name="containerText">Container</string>
@@ -19,5 +19,7 @@
     <string name="columnName">Name</string>
     <string name="columnQty">Quantity</string>
     <string name="columnExpiration">Expiration Date</string>
+    <string name="title_activity_stock">Stock</string>
+    <string name="columnContainer">Container</string>
 
 </resources>

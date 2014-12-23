@@ -5,7 +5,7 @@
     <string name="addItem">Ajouter un aliment</string>
     <string name="search">Recherche</string>
     <string name="title_activity_container">Conteneur</string>
-    <string name="title_activity_search_page">Page de recherche</string>
+    <string name="title_activity_search_page">Recherche</string>
     <string name="hello_world">Salut le monde ! </string>
     <string name="containerText">Contenant</string>
     <string name="foodTypeTitle">Type de nourriture</string>
@@ -28,4 +28,6 @@
     <string name="prompt_password">Mot de passe (optionel)</string>
     <string name="title_activity_login">Connexion</string>
     <string name="title_activity_search_result">Résultat de recherche</string>
+    <string name="title_activity_stock">Stock</string>
+    <string name="columnContainer">Conteneur</string>
 </resources>

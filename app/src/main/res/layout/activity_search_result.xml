@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
+        android:text="@string/columnName"
         android:id="@+id/textView4"
         android:layout_below="@+id/titleApp"
         android:layout_alignParentLeft="true"
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
+        android:text="@string/columnContainer"
         android:id="@+id/textView6"
         android:layout_below="@+id/titleApp"
         android:layout_centerHorizontal="true" />
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
+        android:text="@string/columnExpiration"
         android:id="@+id/textView7"
         android:layout_below="@+id/titleApp"
         android:layout_alignParentRight="true"
@@ -53,7 +53,10 @@
         android:id="@+id/listView"
         android:layout_below="@+id/textView4"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/listView2"
+        android:layout_toLeftOf="@+id/textView6"
+        android:layout_toStartOf="@+id/textView6" />
 
     <ListView
         android:layout_width="wrap_content"
