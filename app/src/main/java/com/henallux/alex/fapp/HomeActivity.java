@@ -11,25 +11,44 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
-public class HomeActivity extends ActionBarActivity {
+public class HomeActivity extends ActionBarActivity{
 
-    private String[] filenames = {
-            "Frigo 1",
-            "Frigo 2",
-            "Congélateur"
-    };
+    private ArrayList<String> filenames = new ArrayList<>();
+
+    private EditText addContText;
+    private Button addContBtn;
+    private ListView listViewCont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        ListView listViewCont = (ListView) findViewById(R.id.containerGrid);
+
+        //POUR LES TESTS
+        filenames.add("Frigo1");
+        filenames.add("Frigo2");
+        filenames.add("Congélateur");
+
+        listViewCont = (ListView) findViewById(R.id.containerGrid);
         listViewCont.setAdapter(new ButtonAdapter(this));
+
+        addContText =  (EditText) findViewById(R.id.addNewContText);
+
+        addContBtn = (Button) findViewById(R.id.addContainerBtn);
+        addContBtn.setOnClickListener(new OnClickListenerAddContainer());
+
+
+
+
+
+
+
     }
 
 
@@ -60,16 +79,18 @@ public class HomeActivity extends ActionBarActivity {
 
         // Gets the context so it can be used later
         public ButtonAdapter(Context c) {
+
             mContext = c;
         }
 
         // Total number of things contained within the adapter
         public int getCount() {
-            return filenames.length;
+            return filenames.size();
         }
 
         // Require for structure, not really used in my code.
         public Object getItem(int position) {
+
             return null;
         }
 
@@ -77,11 +98,12 @@ public class HomeActivity extends ActionBarActivity {
         // be used to get the id of an item in the adapter for
         // manual control.
         public long getItemId(int position) {
+
             return position;
         }
 
-        public View getView(int position,
-                            View convertView, ViewGroup parent) {
+        public View getView(int position,View convertView, ViewGroup parent) {
+
             Button btn;
             if (convertView == null) {
                 // if it's not recycled, initialize some attributes
@@ -93,7 +115,7 @@ public class HomeActivity extends ActionBarActivity {
                 btn = (Button) convertView;
             }
             //exus
-            btn.setText(filenames[position]);
+            btn.setText(filenames.get(position));
             // filenames is an array of strings
             btn.setTextColor(Color.WHITE);
             //btn.setBackgroundResource(R.drawable.button);
@@ -105,6 +127,15 @@ public class HomeActivity extends ActionBarActivity {
             return btn;
         }
     }
+
+    class OnClickListenerAddContainer implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+            filenames.add(addContText.getText().toString());
+            listViewCont.invalidateViews(); // TODO OK CA MARCHE pour le moment; possible que quand ca sera lié à la DB ca ne marchera plus ==>  http://stackoverflow.com/questions/19656325/listview-not-updating-after-database-update-and-adapter-notifydatasetchanged/19657500#19657500
+        }
+    }
+
 
     class MyOnClickListener implements View.OnClickListener
     {
@@ -119,7 +150,7 @@ public class HomeActivity extends ActionBarActivity {
         {
             //TODO utiliser un activityForResult pour récuperer le résultat ?
             Intent intent = new Intent(HomeActivity.this, ContainerActivity.class);
-            intent.putExtra("textTitleContainer",filenames[this.position]);
+            intent.putExtra("textTitleContainer",filenames.get(this.position));
             startActivity(intent);
         }
     }

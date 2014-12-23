@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/containerGrid"
             android:layout_below="@+id/textView"
-            android:layout_above="@+id/addContainerBtn" />
+            android:layout_above="@+id/addNewContText" />
 
         <Button
             android:layout_width="wrap_content"
@@ -38,5 +38,16 @@
             android:id="@+id/addContainerBtn"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addNewContText"
+            android:layout_above="@+id/addContainerBtn"
+            android:layout_alignLeft="@+id/addContainerBtn"
+            android:layout_alignStart="@+id/addContainerBtn"
+            android:layout_alignRight="@+id/addContainerBtn"
+            android:layout_alignEnd="@+id/addContainerBtn"
+            android:text="@string/newContEditText" />
     </RelativeLayout>
 </RelativeLayout>

@@ -21,5 +21,6 @@
     <string name="columnExpiration">Expiration Date</string>
     <string name="title_activity_stock">Stock</string>
     <string name="columnContainer">Container</string>
+    <string name="newContEditText">New container</string>
 
 </resources>

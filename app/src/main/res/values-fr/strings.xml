@@ -30,4 +30,5 @@
     <string name="title_activity_search_result">Résultat de recherche</string>
     <string name="title_activity_stock">Stock</string>
     <string name="columnContainer">Conteneur</string>
+    <string name="newContEditText">Nouveau conteur</string>
 </resources>
