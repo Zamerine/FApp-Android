@@ -4,7 +4,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -13,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import model.Container;
 import model.Item;
@@ -25,6 +29,16 @@ public class ContainerActivity extends ActionBarActivity {
     private ListView listNameFood;
     private ListView listQuantitiesFood;
     private ListView listDatesFood;
+
+    ArrayList<String> names=new ArrayList<>();
+    ArrayList<Integer> quantities=new ArrayList<>();
+    ArrayList<String> dates=new ArrayList<>();
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+    private EditText addFoodNameText;
+    private EditText addFoodQtyText;
+    private EditText addFoodDateText;
+    private Button addFoodBtn;
 
     private ArrayList <Item> items=new ArrayList<>();
 
@@ -40,17 +54,19 @@ public class ContainerActivity extends ActionBarActivity {
         Type meat = new Type(1,"Viande",25);
         Container frigo1 = new Container(0,bundle.getString("textTitleContainer"),new GregorianCalendar(2014,12,24),"Frigo");
         items.add(new Item(0,"Fromage",new GregorianCalendar(2014,12,31),5,lactoseProduct,frigo1));
-        items.add(new Item(1,"Jambon",new GregorianCalendar(2014,12,31),4,meat,frigo1));
-        items.add(new Item(2,"Gervais",new GregorianCalendar(2014,12,31),9,lactoseProduct,frigo1));
+        items.add(new Item(1,"Jambon",new GregorianCalendar(2015,10,01),4,meat,frigo1));
+        items.add(new Item(2,"Gervais",new GregorianCalendar(2015,01,05),9,lactoseProduct,frigo1));
 
-        ArrayList<String> names=new ArrayList<>();
-        ArrayList<Integer> quantities=new ArrayList<>();
-        ArrayList<String> dates=new ArrayList<>();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/mm/dd");
+
+
         for(int i=0;i<items.size();i++) {
-            names.add(items.get(i).getName());
-            quantities.add(items.get(i).getQuantity());
-            dates.add(formatter.format(items.get(i).getExpiryDate()));
+            if(items.get(i).getContainer().getName()==bundle.getString("textTitleContainer")) {
+                names.add(items.get(i).getName());
+                quantities.add(items.get(i).getQuantity());
+                java.util.Date datetest = items.get(i).getExpiryDate().getTime();
+                dates.add(formatter.format(datetest));
+            }
+
         }
 
         titleContainer=(TextView) findViewById(R.id.textTitleContainer);
@@ -66,6 +82,14 @@ public class ContainerActivity extends ActionBarActivity {
         listNameFood.setAdapter(arrayAdaptName);
         listQuantitiesFood.setAdapter(arrayAdaptQuantities);
         listDatesFood.setAdapter(arrayAdaptDates);
+
+
+        addFoodNameText =  (EditText) findViewById(R.id.editTextNam);
+        addFoodQtyText =  (EditText) findViewById(R.id.editTextQty);
+        addFoodDateText =  (EditText) findViewById(R.id.editTextDate);
+
+        addFoodBtn = (Button) findViewById(R.id.addItemBtn);
+        addFoodBtn.setOnClickListener(new OnClickListenerAddFood());
     }
 
 
@@ -89,5 +113,17 @@ public class ContainerActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    class OnClickListenerAddFood implements View.OnClickListener{
+        @Override
+        public void onClick(View v){
+            names.add(addFoodNameText.getText().toString());
+            quantities.add(Integer.parseInt(addFoodQtyText.getText().toString()));  //TODO changer ces editText en numberPicker et datePicker
+            dates.add(addFoodDateText.getText().toString());
+            listNameFood.invalidateViews(); // TODO OK CA MARCHE pour le moment; possible que quand ca sera lié à la DB ca ne marchera plus ==>  http://stackoverflow.com/questions/19656325/listview-not-updating-after-database-update-and-adapter-notifydatasetchanged/19657500#19657500
+            listQuantitiesFood.invalidateViews();
+            listDatesFood.invalidateViews();
+        }
     }
 }

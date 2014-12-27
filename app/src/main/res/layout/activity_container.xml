@@ -51,8 +51,8 @@
             android:layout_toRightOf="@+id/listViewNameFood"
             android:layout_toLeftOf="@+id/listViewDateFood"
             android:layout_toStartOf="@+id/listViewDateFood"
-            android:layout_above="@+id/addItemBtn"
-            android:layout_alignTop="@+id/listViewNameFood" />
+            android:layout_alignTop="@+id/listViewNameFood"
+            android:layout_above="@+id/editTextQty" />
 
         <ListView
             android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             android:layout_alignParentEnd="true"
             android:layout_toRightOf="@+id/addItemBtn"
             android:layout_toEndOf="@+id/addItemBtn"
-            android:layout_alignBottom="@+id/listViewQtyFood" />
+            android:layout_above="@+id/editTextDate" />
 
         <ListView
             android:layout_width="wrap_content"
@@ -71,27 +71,27 @@
             android:id="@+id/listViewNameFood"
             android:layout_toLeftOf="@+id/addItemBtn"
             android:layout_toStartOf="@+id/addItemBtn"
-            android:layout_above="@+id/addItemBtn"
-            android:layout_below="@+id/textView3" />
+            android:layout_below="@+id/ColName"
+            android:layout_above="@+id/editTextNam" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/columnExpiration"
-            android:id="@+id/textView5"
+            android:id="@+id/colDate"
             android:layout_below="@+id/textTitleContainer"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/textView2"
-            android:layout_toEndOf="@+id/textView2" />
+            android:layout_toRightOf="@+id/ColQty"
+            android:layout_toEndOf="@+id/ColQty" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/columnQty"
-            android:id="@+id/textView2"
+            android:id="@+id/ColQty"
             android:layout_toRightOf="@+id/listViewNameFood"
             android:layout_toLeftOf="@+id/listViewDateFood"
             android:layout_toStartOf="@+id/listViewDateFood"
@@ -103,12 +103,45 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/columnName"
-            android:id="@+id/textView3"
+            android:id="@+id/ColName"
             android:layout_below="@+id/textTitleContainer"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/textView2"
-            android:layout_toStartOf="@+id/textView2"
-            android:layout_alignBottom="@+id/textView5" />
+            android:layout_toLeftOf="@+id/ColQty"
+            android:layout_toStartOf="@+id/ColQty"
+            android:layout_alignBottom="@+id/colDate" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextNam"
+            android:layout_above="@+id/addItemBtn"
+            android:layout_alignRight="@+id/listViewNameFood"
+            android:layout_alignEnd="@+id/listViewNameFood"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/columnName" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextQty"
+            android:layout_above="@+id/addItemBtn"
+            android:layout_toRightOf="@+id/textTitleContainer"
+            android:layout_toLeftOf="@+id/listViewDateFood"
+            android:layout_toStartOf="@+id/listViewDateFood"
+            android:text="@string/columnQty" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/editTextDate"
+            android:layout_alignTop="@+id/editTextQty"
+            android:layout_toRightOf="@+id/addItemBtn"
+            android:layout_toEndOf="@+id/addItemBtn"
+            android:text="@string/columnExpiration" />
+
     </RelativeLayout>
 </RelativeLayout>
