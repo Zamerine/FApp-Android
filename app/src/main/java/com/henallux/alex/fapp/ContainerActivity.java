@@ -13,14 +13,11 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
-import model.Container;
-import model.Item;
-import model.Type;
+import com.henallux.alex.fapp.model.Container;
+import com.henallux.alex.fapp.model.Item;
+import com.henallux.alex.fapp.model.Type;
 
 
 public class ContainerActivity extends ActionBarActivity {
@@ -40,8 +37,6 @@ public class ContainerActivity extends ActionBarActivity {
     private EditText addFoodDateText;
     private Button addFoodBtn;
 
-    private ArrayList <Item> items=new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,20 +45,20 @@ public class ContainerActivity extends ActionBarActivity {
         Bundle bundle=this.getIntent().getExtras();
 
         // pour les TESTS
-        Type lactoseProduct = new Type(0,"Produit laitier",30);
-        Type meat = new Type(1,"Viande",25);
-        Container frigo1 = new Container(0,bundle.getString("textTitleContainer"),new GregorianCalendar(2014,12,24),"Frigo");
-        items.add(new Item(0,"Fromage",new GregorianCalendar(2014,12,31),5,lactoseProduct,frigo1));
-        items.add(new Item(1,"Jambon",new GregorianCalendar(2015,10,01),4,meat,frigo1));
-        items.add(new Item(2,"Gervais",new GregorianCalendar(2015,01,05),9,lactoseProduct,frigo1));
+        Type lactoseProduct = new Type("0","Produit laitier", new GregorianCalendar(2014,12,31));
+        Type meat = new Type("1","Viande", new GregorianCalendar(2014,12,31));
+        Container frigo1 = new Container("0",bundle.getString("textTitleContainer"),new GregorianCalendar(2014,12,24),Container.TYPE_FRIGO);
+        frigo1.getItems().add(new Item("0", "Fromage", new GregorianCalendar(2014,12,31),5,lactoseProduct));
+        frigo1.getItems().add(new Item("1","Jambon",new GregorianCalendar(2015,10,01),4,meat));
+        frigo1.getItems().add(new Item("2","Gervais",new GregorianCalendar(2015,01,05),9,lactoseProduct));
 
 
 
-        for(int i=0;i<items.size();i++) {
-            if(items.get(i).getContainer().getName()==bundle.getString("textTitleContainer")) {
-                names.add(items.get(i).getName());
-                quantities.add(items.get(i).getQuantity());
-                java.util.Date datetest = items.get(i).getExpiryDate().getTime();
+        for(int i=0;i<frigo1.getItems().size();i++) {
+            if(frigo1.getName() == bundle.getString("textTitleContainer")) {
+                names.add(frigo1.getItems().get(i).getName());
+                quantities.add(frigo1.getItems().get(i).getQuantity());
+                java.util.Date datetest = frigo1.getItems().get(i).getExpiryDate().getTime();
                 dates.add(formatter.format(datetest));
             }
 

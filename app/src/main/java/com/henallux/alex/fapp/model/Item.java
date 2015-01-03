@@ -1,4 +1,4 @@
-package model;
+package com.henallux.alex.fapp.model;
 
 import java.util.GregorianCalendar;
 
@@ -6,31 +6,29 @@ import java.util.GregorianCalendar;
  * Created by Alex on 24/12/2014.
  */
 public class Item {
-    private int idItem;
+    private String id;
     private String name;
     private GregorianCalendar expiryDate;
     private int quantity;
     private Type type;
-    private Container container;
 
     public Item() {
     }
 
-    public Item(int idItem, String name, GregorianCalendar expiryDate, int quantity, Type type, Container container) {
-        this.idItem = idItem;
+    public Item(String id, String name, GregorianCalendar expiryDate, int quantity, Type type) {
+        this.id = id;
         this.name = name;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
         this.type = type;
-        this.container = container;
     }
 
-    public int getIdItem() {
-        return idItem;
+    public String getId() {
+        return id;
     }
 
-    public void setIdItem(int idItem) {
-        this.idItem = idItem;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -47,14 +45,6 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public Container getContainer() {
-        return container;
-    }
-
-    public void setContainer(Container container) {
-        this.container = container;
     }
 
     public Type getType() {
