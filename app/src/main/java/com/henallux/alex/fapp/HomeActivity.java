@@ -122,7 +122,7 @@ public class HomeActivity extends ActionBarActivity{
             btn.setId(position);
             // Set the onclicklistener so that pressing the button fires an event
             // We will need to implement this onclicklistner.
-            btn.setOnClickListener(new MyOnClickListener(position));
+            btn.setOnClickListener(new OnClickListenerChooseContainer(position));
 
             return btn;
         }
@@ -137,18 +137,18 @@ public class HomeActivity extends ActionBarActivity{
     }
 
 
-    class MyOnClickListener implements View.OnClickListener
+    class OnClickListenerChooseContainer implements View.OnClickListener
     {
         private final int position;
 
-        public MyOnClickListener(int position)
+        public OnClickListenerChooseContainer(int position)
         {
             this.position = position;
         }
 
         public void onClick(View v)
         {
-            //TODO utiliser un activityForResult pour récuperer le résultat ?
+            //TODO utiliser un activityForResult pour récuperer le résultat et ainsi vérifier qu'il n'y a pas eu d'erreur ?
             Intent intent = new Intent(HomeActivity.this, ContainerActivity.class);
             intent.putExtra("textTitleContainer",filenames.get(this.position));
             startActivity(intent);

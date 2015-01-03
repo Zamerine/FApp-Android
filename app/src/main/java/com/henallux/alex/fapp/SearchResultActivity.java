@@ -8,10 +8,20 @@ import android.view.MenuItem;
 
 public class SearchResultActivity extends ActionBarActivity {
 
+    Bundle bundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
+
+        bundle=this.getIntent().getExtras();
+
+       switch(bundle.getInt("sortOfSearch")){
+           case 0 : fastSearch();
+               break;
+
+       }
     }
 
 
@@ -35,5 +45,9 @@ public class SearchResultActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void fastSearch(){
+
     }
 }
