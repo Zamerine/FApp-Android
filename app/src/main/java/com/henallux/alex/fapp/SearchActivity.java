@@ -12,6 +12,7 @@ import android.widget.Button;
 public class SearchActivity extends ActionBarActivity {
 
     private Button fastSearchBtn;
+    private Button completeSearchBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,9 @@ public class SearchActivity extends ActionBarActivity {
 
         fastSearchBtn= (Button) findViewById(R.id.fastSearchBtn);
         fastSearchBtn.setOnClickListener(new OnClickListenerFastSearch());
+
+        completeSearchBtn= (Button) findViewById(R.id.completeSearchBtn);
+        completeSearchBtn.setOnClickListener(new OnClickListenerCompleteSearch());
     }
 
 
@@ -35,14 +39,16 @@ public class SearchActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()){
+            case R.id.action_settings:
+                return true;
+            case R.id.searchBtn:
+                Intent intent = new Intent(SearchActivity.this, SearchActivity.class);
+                startActivity(intent);
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     class OnClickListenerFastSearch implements View.OnClickListener
@@ -59,10 +65,10 @@ public class SearchActivity extends ActionBarActivity {
         }
     }
 
-    /*class OnClickListenerFastSearch implements View.OnClickListener
+    class OnClickListenerCompleteSearch implements View.OnClickListener
     {
 
-        public OnClickListenerFastSearch()
+        public OnClickListenerCompleteSearch()
         {
 
         }
@@ -74,5 +80,5 @@ public class SearchActivity extends ActionBarActivity {
             intent.putExtra("sortOfSearch",1);
             startActivity(intent);
         }
-    }*/
+    }
 }
