@@ -1,147 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.henallux.alex.fapp.ContainerActivity">
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:clickable="false">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentTop="true"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/app_name"
+        android:id="@+id/titleApp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textTitleContainer"
+        android:layout_below="@+id/titleApp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/relativeContainer">
+        android:layout_marginTop="20dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/app_name"
-            android:id="@+id/titleApp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/columnName"
+        android:id="@+id/colItemName"
+        android:layout_below="@+id/textTitleContainer"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:width="100dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textTitleContainer"
-            android:layout_below="@+id/titleApp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/columnQty"
+        android:id="@+id/colItemType"
+        android:layout_below="@+id/textTitleContainer"
+        android:layout_toRightOf="@+id/colItemName"
+        android:layout_toEndOf="@+id/colItemName"
+        android:width="100dp"
+        android:singleLine="false" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/addItem"
-            android:id="@+id/addItemBtn"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/columnExpiration"
+        android:id="@+id/colItemExpiredDate"
+        android:layout_alignTop="@+id/colItemType"
+        android:layout_toRightOf="@+id/colItemType"
+        android:layout_toEndOf="@+id/colItemType"/>
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/listViewQtyFood"
-            android:layout_toRightOf="@+id/listViewNameFood"
-            android:layout_toLeftOf="@+id/listViewDateFood"
-            android:layout_toStartOf="@+id/listViewDateFood"
-            android:layout_alignTop="@+id/listViewNameFood"
-            android:layout_above="@+id/editTextQty" />
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewItems"
+        android:layout_below="@+id/colItemName"
+        android:layout_above="@+id/editTextItemName"
+        android:layout_marginTop="20dp" />
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/listViewDateFood"
-            android:layout_alignTop="@+id/listViewQtyFood"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/addItemBtn"
-            android:layout_toEndOf="@+id/addItemBtn"
-            android:layout_above="@+id/editTextDate" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addItem"
+        android:id="@+id/bntAddItem"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/listViewNameFood"
-            android:layout_toLeftOf="@+id/addItemBtn"
-            android:layout_toStartOf="@+id/addItemBtn"
-            android:layout_below="@+id/ColName"
-            android:layout_above="@+id/editTextNam" />
+    <EditText
+        android:inputType="text"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextItemName"
+        android:layout_above="@id/bntAddItem"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/columnName"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/columnExpiration"
-            android:id="@+id/colDate"
-            android:layout_below="@+id/textTitleContainer"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/ColQty"
-            android:layout_toEndOf="@+id/ColQty" />
+    <EditText
+        android:inputType="number"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextItemQuantity"
+        android:layout_above="@id/bntAddItem"
+        android:layout_toEndOf="@+id/editTextItemName"
+        android:layout_toRightOf="@+id/editTextItemName"
+        android:hint="@string/columnQty"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/columnQty"
-            android:id="@+id/ColQty"
-            android:layout_toRightOf="@+id/listViewNameFood"
-            android:layout_toLeftOf="@+id/listViewDateFood"
-            android:layout_toStartOf="@+id/listViewDateFood"
-            android:layout_below="@+id/textTitleContainer"
-            android:layout_above="@+id/listViewQtyFood" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/columnName"
-            android:id="@+id/ColName"
-            android:layout_below="@+id/textTitleContainer"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/ColQty"
-            android:layout_toStartOf="@+id/ColQty"
-            android:layout_alignBottom="@+id/colDate" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextNam"
-            android:layout_above="@+id/addItemBtn"
-            android:layout_alignRight="@+id/listViewNameFood"
-            android:layout_alignEnd="@+id/listViewNameFood"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:text="@string/columnName" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextQty"
-            android:layout_above="@+id/addItemBtn"
-            android:layout_toRightOf="@+id/textTitleContainer"
-            android:layout_toLeftOf="@+id/listViewDateFood"
-            android:layout_toStartOf="@+id/listViewDateFood"
-            android:text="@string/columnQty" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/editTextDate"
-            android:layout_alignTop="@+id/editTextQty"
-            android:layout_toRightOf="@+id/addItemBtn"
-            android:layout_toEndOf="@+id/addItemBtn"
-            android:text="@string/columnExpiration" />
-
-    </RelativeLayout>
+    <EditText
+        android:inputType="date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextItemExpiredDate"
+        android:layout_above="@id/bntAddItem"
+        android:layout_toEndOf="@+id/editTextItemQuantity"
+        android:layout_toRightOf="@id/editTextItemQuantity"
+        android:hint="@string/columnExpiration"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:focusable="false" />
 </RelativeLayout>
