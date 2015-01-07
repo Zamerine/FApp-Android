@@ -75,12 +75,12 @@ public class ContainerActivity extends ActionBarActivity {
 
     private void initComponent(){
         // pour les TESTS
-        Type lactoseProduct = new Type("0","Produit laitier", new GregorianCalendar(2014,12,31));
-        Type meat = new Type("1", "Viande", new GregorianCalendar(2014,12,31));
-        Container frigo1 = new Container("0","Frigo1",new GregorianCalendar(2014,12,24),Container.TYPE_FRIGO);
-        frigo1.getItems().add(new Item("0", "Fromage", new GregorianCalendar(2014,12,31),5,lactoseProduct));
-        frigo1.getItems().add(new Item("1", "Jambon", new GregorianCalendar(2015, 10, 01), 4, meat));
-        frigo1.getItems().add(new Item("2","Gervais",new GregorianCalendar(2015,01,05),9,lactoseProduct));
+        Type lactoseProduct = new Type(0,"Produit laitier", new GregorianCalendar(2014,12,31));
+        Type meat = new Type(1, "Viande", new GregorianCalendar(2014,12,31));
+        Container frigo1 = new Container(0,"Frigo1",new GregorianCalendar(2014,12,24),Container.TYPE_FRIGO);
+        frigo1.getItems().add(new Item(0, "Fromage", new GregorianCalendar(2014,12,31),5,lactoseProduct,null));
+        frigo1.getItems().add(new Item(1, "Jambon", new GregorianCalendar(2015, 10, 01), 4, meat,null));
+        frigo1.getItems().add(new Item(2, "Gervais",new GregorianCalendar(2015,01,05),9,lactoseProduct,null));
 
         titleContainer=(TextView) findViewById(R.id.textTitleContainer);
         titleContainer.setText(frigo1.getName());

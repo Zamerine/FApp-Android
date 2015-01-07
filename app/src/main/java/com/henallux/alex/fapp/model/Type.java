@@ -6,32 +6,32 @@ import java.util.GregorianCalendar;
  * Created by Alex on 24/12/2014.
  */
 public class Type {
-    private String id;
+    private int id;
     private String name;
     private GregorianCalendar freezerDuration;
-    private GregorianCalendar defaultExpireDate;
+    private GregorianCalendar defaultExpiryDate;
 
     public Type() {
     }
 
-    public Type(String id, String name, GregorianCalendar freezerDuration, GregorianCalendar defaultExpireDate) {
+    public Type(int id, String name, GregorianCalendar freezerDuration, GregorianCalendar defaultExpiryDate) {
         this.id = id;
         this.name = name;
         this.freezerDuration = freezerDuration;
-        this.defaultExpireDate = defaultExpireDate;
+        this.defaultExpiryDate = defaultExpiryDate;
     }
 
-    public Type(String id, String name, GregorianCalendar freezerDuration) {
+    public Type(int id, String name, GregorianCalendar freezerDuration) {
         this.id = id;
         this.name = name;
         this.freezerDuration = freezerDuration;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -51,11 +51,11 @@ public class Type {
         this.freezerDuration = freezerDuration;
     }
 
-    public GregorianCalendar getDefaultExpireDate() {
-        return defaultExpireDate;
+    public GregorianCalendar getDefaultExpiryDate() {
+        return defaultExpiryDate;
     }
 
-    public void setDefaultExpireDate(GregorianCalendar defaultExpireDate) {
-        this.defaultExpireDate = defaultExpireDate;
+    public void setDefaultExpiryDate(GregorianCalendar defaultExpiryDate) {
+        this.defaultExpiryDate = defaultExpiryDate;
     }
 }

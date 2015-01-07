@@ -10,7 +10,7 @@ public class Container {
     public static final int TYPE_FRIGO = 0;
     public static final int TYPE_CONGEL = 1;
 
-    private String id;
+    private int id;
     private String name;
     private GregorianCalendar lastSync;
     private ArrayList<Item> items;
@@ -20,7 +20,7 @@ public class Container {
         items = new ArrayList<>();
     }
 
-    public Container(String idCont, String name, GregorianCalendar lastSync, int type) {
+    public Container(int idCont, String name, GregorianCalendar lastSync, int type) {
         this();
         this.id = idCont;
         this.name = name;
@@ -28,7 +28,7 @@ public class Container {
         this.lastSync=lastSync;
     }
 
-    public Container(String idCont, String name, GregorianCalendar lastSync, ArrayList<Item> items,
+    public Container(int idCont, String name, GregorianCalendar lastSync, ArrayList<Item> items,
                      int type) {
         this.id = idCont;
         this.name = name;
@@ -45,11 +45,11 @@ public class Container {
         this.lastSync = lastSync;
     }
 
-    public String getIdCont() {
+    public int getIdCont() {
         return id;
     }
 
-    public void setIdCont(String id) {
+    public void setIdCont(int id) {
         this.id = id;
     }
 

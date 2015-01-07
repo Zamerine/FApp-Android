@@ -6,28 +6,31 @@ import java.util.GregorianCalendar;
  * Created by Alex on 24/12/2014.
  */
 public class Item {
-    private String id;
+    private int id;
     private String name;
     private GregorianCalendar expiryDate;
     private int quantity;
     private Type type;
+    private GregorianCalendar lastSync;
 
     public Item() {
     }
 
-    public Item(String id, String name, GregorianCalendar expiryDate, int quantity, Type type) {
+    public Item(int id, String name, GregorianCalendar expiryDate, int quantity, Type type,
+                GregorianCalendar lastSync) {
         this.id = id;
         this.name = name;
         this.expiryDate = expiryDate;
         this.quantity = quantity;
         this.type = type;
+        this.lastSync = lastSync;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -61,5 +64,13 @@ public class Item {
 
     public void setExpiryDate(GregorianCalendar expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public GregorianCalendar getLastSync() {
+        return lastSync;
+    }
+
+    public void setLastSync(GregorianCalendar lastSync) {
+        this.lastSync = lastSync;
     }
 }
