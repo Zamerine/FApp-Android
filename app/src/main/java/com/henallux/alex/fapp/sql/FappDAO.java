@@ -42,6 +42,7 @@ public class FappDAO {
     }
 
     public void deleteContainer (Container container){
+        deleteItemsOfContainer(container);
         dbHelperContainer = new SQLiteHelperContainer(context);
         database = dbHelperContainer.getWritableDatabase();
         database.delete(SQLiteHelperContainer.TABLE_NAME,
@@ -115,13 +116,14 @@ public class FappDAO {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="item">
-    public void createItem(Item item) {
+    public void createItem(Item item, Container container) {
         dbHelperItem = new SQLiteHelperItem(context);
         database = dbHelperItem.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SQLiteHelperItem.COLUMN_NAME, item.getName());
         values.put(SQLiteHelperItem.COLUMN_QUANTITY, item.getQuantity());
         values.put(SQLiteHelperItem.COLUMN_ID_TYPE, item.getType().getId());
+        values.put(SQLiteHelperItem.COLUMN_ID_CONTAINER, container.getIdCont());
         values.put(SQLiteHelperItem.COLUMN_EXPIRY_DATE, item.getExpiryDate().getTimeInMillis());
         values.put(SQLiteHelperItem.COLUMN_LAST_SYNC, item.getLastSync().getTimeInMillis());
         database.insert(SQLiteHelperItem.TABLE_NAME, null, values);
@@ -135,7 +137,16 @@ public class FappDAO {
         database.delete(SQLiteHelperItem.TABLE_NAME,
                 SQLiteHelperItem.COLUMN_ID + " = " + item.getId(), null);
         database.close();
-        dbHelperContainer.close();
+        dbHelperItem.close();
+    }
+
+    public void deleteItemsOfContainer(Container container) {
+        dbHelperItem = new SQLiteHelperItem(context);
+        database = dbHelperItem.getWritableDatabase();
+        database.delete(SQLiteHelperItem.TABLE_NAME, SQLiteHelperItem.COLUMN_ID_CONTAINER + "= "
+                + container.getIdCont(),null);
+        database.close();
+        dbHelperItem.close();
     }
 
     public void updateItem(Item item) {
@@ -150,14 +161,7 @@ public class FappDAO {
         database.update(SQLiteHelperItem.TABLE_NAME, values, "ID=?",
                 new String[]{String.valueOf(item.getId())});
     }
-//    dbHelperContainer = new SQLiteHelperContainer(context);
-//    database = dbHelperContainer.getWritableDatabase();
-//    ContentValues values = new ContentValues();
-//    values.put(SQLiteHelperContainer.COLUMN_NAME, container.getName());
-//    values.put(SQLiteHelperContainer.COLUMN_LAST_SYNC, container.getLastSync().getTimeInMillis());
-//    database.update(SQLiteHelperContainer.TABLE_NAME, values, "ID=" + container.getIdCont(), null);
-//    database.close();
-//    dbHelperContainer.close();
+
     public ArrayList<Item> getContainerItems(int containerId) {
         dbHelperItem = new SQLiteHelperItem(context);
         database = dbHelperItem.getReadableDatabase();
@@ -176,17 +180,19 @@ public class FappDAO {
 
     private Item converterItem(Cursor cursor) {
         Item item = new Item();
-        item.setId(cursor.getInt(0));
-        item.setName(cursor.getString(1));
-        item.setQuantity(cursor.getInt(2));
-        item.setType(getTypeByID(cursor.getInt(3)));
+        item.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperItem.COLUMN_ID)));
+        item.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperItem.COLUMN_NAME)));
+        item.setQuantity(cursor.getInt(cursor.getColumnIndex(SQLiteHelperItem.COLUMN_QUANTITY)));
+        item.setType(getTypeByID(cursor.getInt(cursor.getColumnIndex(SQLiteHelperItem.COLUMN_ID_TYPE))));
 
         GregorianCalendar expiryDate = new GregorianCalendar();
-        expiryDate.setGregorianChange(new Date(cursor.getInt(4)));
+        expiryDate.setGregorianChange(new Date(cursor.getInt(cursor.getColumnIndex(
+                SQLiteHelperItem.COLUMN_EXPIRY_DATE))));
         item.setExpiryDate(expiryDate);
 
         GregorianCalendar lastSync = new GregorianCalendar();
-        lastSync.setGregorianChange(new Date(cursor.getInt(5)));
+        lastSync.setGregorianChange(new Date(cursor.getInt(cursor.getColumnIndex(
+                SQLiteHelperItem.COLUMN_LAST_SYNC))));
         item.setLastSync(lastSync);
 
         return item;
@@ -237,15 +243,17 @@ public class FappDAO {
 
     private Type converterType (Cursor cursor) {
         Type type = new Type();
-        type.setId(cursor.getInt(0));
-        type.setName(cursor.getString(1));
+        type.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperType.COLUMN_ID)));
+        type.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperType.COLUMN_NAME)));
 
         GregorianCalendar freezerDuration = new GregorianCalendar();
-        freezerDuration.setGregorianChange(new Date(cursor.getInt(2)));
+        freezerDuration.setGregorianChange(new Date(cursor.getInt(cursor.getColumnIndex(
+                SQLiteHelperType.COLUMN_FREEZER_DURATION))));
         type.setFreezerDuration(freezerDuration);
 
         GregorianCalendar expiryDate = new GregorianCalendar();
-        expiryDate.setGregorianChange(new Date(cursor.getInt(3)));
+        expiryDate.setGregorianChange(new Date(cursor.getInt(cursor.getColumnIndex(
+                SQLiteHelperType.COLUMN_DEFAULT_EXPIRY_DATE))));
         type.setDefaultExpiryDate(expiryDate);
 
         return type;

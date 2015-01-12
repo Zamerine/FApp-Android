@@ -15,8 +15,8 @@ public class SQLiteHelperType extends SQLiteOpenHelper{
     public static final String COLUMN_FREEZER_DURATION = "freezerDuration";
     public static final String COLUMN_DEFAULT_EXPIRY_DATE = "defaultExpiryDate";
 
-    private static final String DATABASE_NAME = "container.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "type.db";
+    private static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_CREATE = "create table " + TABLE_NAME + " (" + COLUMN_ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + COLUMN_NAME + " text, "

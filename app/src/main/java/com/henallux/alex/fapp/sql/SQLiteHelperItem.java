@@ -14,16 +14,17 @@ public class SQLiteHelperItem extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_ID_TYPE = "idType";
     public static final String COLUMN_QUANTITY = "quantity";
+    public static final String COLUMN_ID_CONTAINER = "idContainer";
     public static final String COLUMN_EXPIRY_DATE = "expiredDate";
     public static final String COLUMN_LAST_SYNC = "lastSync";
 
-    private static final String DATABASE_NAME = "container.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "item.db";
+    private static final int DATABASE_VERSION = 4;
 
     private static final String DATABASE_CREATE = "create table " + TABLE_NAME + " (" + COLUMN_ID
             + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + COLUMN_NAME + " text, " + COLUMN_ID_TYPE
-            + " integer, " + COLUMN_QUANTITY + " integer, " +  COLUMN_EXPIRY_DATE + " integer, "
-            + COLUMN_LAST_SYNC + " integer)";
+            + " integer, " + COLUMN_QUANTITY + " integer, " + COLUMN_ID_CONTAINER + " integer, "
+            +  COLUMN_EXPIRY_DATE + " integer, " + COLUMN_LAST_SYNC + " integer)";
     private static final String DATABASE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public SQLiteHelperItem(Context context) {
