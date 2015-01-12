@@ -22,5 +22,15 @@
     <string name="title_activity_stock">Stock</string>
     <string name="columnContainer">Container</string>
     <string name="newContEditText">New container</string>
+    <string name="type_container_frigo">Refrigerator</string>
+    <string name="type_container_freezer">Freezer</string>
+    <string name="type_container_prompt">Type container</string>
+    <string name="container_name_empty">Name container is empty!</string>
+    <string name="toast_add_container">New container has been added</string>
+    <string name="label_edit_name_container">Name container</string>
+    <string name="edit_name_container">Edit name</string>
+    <string name="delete_container">Delete container (irreversible)</string>
+    <string name="back">Back</string>
+    <string name="title_dialog_edit_container">Modification of</string>
 
 </resources>

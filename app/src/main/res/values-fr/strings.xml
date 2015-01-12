@@ -30,5 +30,15 @@
     <string name="title_activity_search_result">Résultat de recherche</string>
     <string name="title_activity_stock">Stock</string>
     <string name="columnContainer">Conteneur</string>
-    <string name="newContEditText">Nouveau conteur</string>
+    <string name="newContEditText">Nouveau conteneur</string>
+    <string name="type_container_frigo">Réfrigérateur</string>
+    <string name="type_container_freezer">Congélateur</string>
+    <string name="type_container_prompt">Type conteneur</string>
+    <string name="container_name_empty">Le nom du conteneur est vide</string>
+    <string name="toast_add_container">Le nouveau conteneur a été ajouté</string>
+    <string name="label_edit_name_container">Nom conteneur</string>
+    <string name="edit_name_container">Changer nom</string>
+    <string name="delete_container">Supprimer conteneur (irréversible)</string>
+    <string name="back">Retour</string>
+    <string name="title_dialog_edit_container">Modification de </string>
 </resources>

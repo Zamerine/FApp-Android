@@ -18,8 +18,7 @@ import java.util.GregorianCalendar;
  */
 public class FappDAO {
 
-    private static final String[] ALL_COLUMNS_CONTAINER = {SQLiteHelperContainer.COLUMN_ID,
-            SQLiteHelperContainer.COLUMN_NAME, SQLiteHelperContainer.COLUMN_TYPE,
+    private static final String[] COLUMNS_CONTAINER_UPDATE = { SQLiteHelperContainer.COLUMN_NAME,
             SQLiteHelperContainer.COLUMN_LAST_SYNC};
     private static final  String[] ALL_COLUMNS_ITEM = {SQLiteHelperItem.COLUMN_ID,
             SQLiteHelperItem.COLUMN_NAME, SQLiteHelperItem.COLUMN_QUANTITY,
@@ -44,7 +43,6 @@ public class FappDAO {
         dbHelperContainer = new SQLiteHelperContainer(context);
         database = dbHelperContainer.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SQLiteHelperContainer.COLUMN_ID, container.getIdCont());
         values.put(SQLiteHelperContainer.COLUMN_NAME, container.getName());
         values.put(SQLiteHelperContainer.COLUMN_TYPE, container.getType());
         values.put(SQLiteHelperContainer.COLUMN_LAST_SYNC, container.getLastSync().getTimeInMillis());
@@ -62,18 +60,26 @@ public class FappDAO {
         dbHelperContainer.close();
     }
 
+    public void update (Container container){
+        dbHelperContainer = new SQLiteHelperContainer(context);
+        database = dbHelperContainer.getWritableDatabase();
+//        database.
+    }
+
     public ArrayList<Container> getAllContainers(){
         dbHelperContainer = new SQLiteHelperContainer(context);
         database = dbHelperContainer.getReadableDatabase();
         ArrayList<Container> containers = new ArrayList<>();
 
-        Cursor cursor = database.query(SQLiteHelperContainer.TABLE_NAME, ALL_COLUMNS_CONTAINER, null,
-                null, null, null, SQLiteHelperContainer.COLUMN_NAME);
+        Cursor cursor = database.query(SQLiteHelperContainer.TABLE_NAME, null, null, null, null,
+                null, SQLiteHelperContainer.COLUMN_NAME);
 
-        cursor.moveToFirst();
-        while(!cursor.isAfterLast()){
-            containers.add(converterContainer(cursor));
-            cursor.moveToNext();
+        if(cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                containers.add(converterContainer(cursor));
+                cursor.moveToNext();
+            }
         }
         cursor.close();
         database.close();
@@ -83,22 +89,22 @@ public class FappDAO {
 
     private Container converterContainer(Cursor cursor) {
         Container container = new Container();
-        container.setIdCont(cursor.getInt(0));
-        container.setName(cursor.getString(1));
-        container.setType(cursor.getInt(2));
+        container.setIdCont(cursor.getInt(cursor.getColumnIndex(SQLiteHelperContainer.COLUMN_ID)));
+        container.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperContainer.COLUMN_NAME)));
+        container.setType(cursor.getInt(cursor.getColumnIndex(SQLiteHelperContainer.COLUMN_TYPE)));
         GregorianCalendar lastSync = new GregorianCalendar();
-        lastSync.setGregorianChange(new Date(cursor.getInt(3)));
+        lastSync.setGregorianChange(new Date(cursor.getInt(
+                cursor.getColumnIndex(SQLiteHelperContainer.COLUMN_LAST_SYNC))));
         container.setLastSync(lastSync);
         return container;
     }
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="item"
+    //<editor-fold defaultstate="collapsed" desc="item">
     public void createItem(Item item) {
         dbHelperItem = new SQLiteHelperItem(context);
         database = dbHelperItem.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SQLiteHelperItem.COLUMN_ID, item.getId());
         values.put(SQLiteHelperItem.COLUMN_NAME, item.getName());
         values.put(SQLiteHelperItem.COLUMN_QUANTITY, item.getQuantity());
         values.put(SQLiteHelperItem.COLUMN_ID_TYPE, item.getType().getId());

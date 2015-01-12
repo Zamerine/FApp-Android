@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type_container">
+        <item>@string/type_container_frigo</item>
+        <item>@string/type_container_freezer</item>
+    </string-array>
+</resources>

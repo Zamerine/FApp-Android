@@ -1,54 +1,48 @@
 package com.henallux.alex.fapp;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.henallux.alex.fapp.adapter.ListContainerAdapter;
+import com.henallux.alex.fapp.dialog.DialogEditContainer;
+import com.henallux.alex.fapp.model.Container;
+import com.henallux.alex.fapp.sql.FappDAO;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 
 public class HomeActivity extends ActionBarActivity{
 
-    private ArrayList<String> filenames = new ArrayList<>();
-
     private EditText addContText;
     private Button addContBtn;
+    ListContainerAdapter listContainerAdapter;
     private ListView listViewCont;
+    private Spinner chooseTypeCont;
+
+    private ArrayList<Container> containers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //POUR LES TESTS
-        filenames.add("Frigo1");
-        filenames.add("Frigo2");
-        filenames.add("Congélateur");
-
-        listViewCont = (ListView) findViewById(R.id.containerGrid);
-        listViewCont.setAdapter(new ButtonAdapter(this));
-
-        addContText =  (EditText) findViewById(R.id.addNewContText);
-
-        addContBtn = (Button) findViewById(R.id.addContainerBtn);
-        addContBtn.setOnClickListener(new OnClickListenerAddContainer());
-
-
-
-
-
-
-
+        initComponent();
+        new AsyncGetAllContainers().execute();
+        initListener();
     }
 
 
@@ -74,84 +68,86 @@ public class HomeActivity extends ActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    public class ButtonAdapter extends BaseAdapter {
-        private Context mContext;
-
-        // Gets the context so it can be used later
-        public ButtonAdapter(Context c) {
-
-            mContext = c;
-        }
-
-        // Total number of things contained within the adapter
-        public int getCount() {
-            return filenames.size();
-        }
-
-        // Require for structure, not really used in my code.
-        public Object getItem(int position) {
-
-            return null;
-        }
-
-        // Require for structure, not really used in my code. Can
-        // be used to get the id of an item in the adapter for
-        // manual control.
-        public long getItemId(int position) {
-
-            return position;
-        }
-
-        public View getView(int position,View convertView, ViewGroup parent) {
-
-            Button btn;
-            if (convertView == null) {
-                // if it's not recycled, initialize some attributes
-                btn = new Button(mContext);
-                btn.setLayoutParams(new ListView.LayoutParams(100, 55));
-                btn.setPadding(8, 8, 8, 8);
-            }
-            else {
-                btn = (Button) convertView;
-            }
-            //exus
-            btn.setText(filenames.get(position));
-            // filenames is an array of strings
-            btn.setTextColor(Color.WHITE);
-            //btn.setBackgroundResource(R.drawable.button);
-            btn.setId(position);
-            // Set the onclicklistener so that pressing the button fires an event
-            // We will need to implement this onclicklistner.
-            btn.setOnClickListener(new OnClickListenerChooseContainer(position));
-
-            return btn;
-        }
+    private void initComponent() {
+        listViewCont = (ListView) findViewById(R.id.containerGrid);
+        addContText =  (EditText) findViewById(R.id.addNewContText);
+        addContBtn = (Button) findViewById(R.id.addContainerBtn);
+        chooseTypeCont = (Spinner) findViewById(R.id.spinnerTypeContainer);
     }
 
-    class OnClickListenerAddContainer implements View.OnClickListener{
+    private void initListener(){
+        addContBtn.setOnClickListener(new OnClickListenerAddContainer());
+        listViewCont.setOnItemClickListener(new OnChooseContainerListener());
+        listViewCont.setOnItemLongClickListener(new OnContainerLongClickListener());
+    }
+
+    //Listener
+    private class OnClickListenerAddContainer implements View.OnClickListener{
         @Override
         public void onClick(View v){
-            filenames.add(addContText.getText().toString());
-            listViewCont.invalidateViews(); // TODO OK CA MARCHE pour le moment; possible que quand ca sera lié à la DB ca ne marchera plus ==>  http://stackoverflow.com/questions/19656325/listview-not-updating-after-database-update-and-adapter-notifydatasetchanged/19657500#19657500
+            if(addContText.getText().toString().equals("")){
+                Toast.makeText(HomeActivity.this, getString(R.string.container_name_empty),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Container container = new Container(null, addContText.getText().toString(),
+                        new GregorianCalendar(),chooseTypeCont.getSelectedItemPosition());
+                FappDAO fappDAO = new FappDAO(HomeActivity.this);
+                fappDAO.createContainer(container);
+                addContText.setText("");
+                Toast.makeText(HomeActivity.this, getString(R.string.toast_add_container),
+                        Toast.LENGTH_LONG).show();
+                new AsyncGetAllContainers().execute();
+            }
         }
     }
 
+    private class OnChooseContainerListener implements AdapterView.OnItemClickListener {
 
-    class OnClickListenerChooseContainer implements View.OnClickListener
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Log.i("debug","item " + position);
+            Intent intent = new Intent(HomeActivity.this, ContainerActivity.class);
+            intent.putExtra("idContainer",containers.get(position).getIdCont());
+            startActivity(intent);
+        }
+    }
+
+    private class OnContainerLongClickListener implements AdapterView.OnItemLongClickListener {
+
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            DialogEditContainer dialog  = new DialogEditContainer(view.getContext(),
+                    containers.get(position));
+            dialog.setTitle(getString(R.string.title_dialog_edit_container) + " " +
+                    containers.get(position).getName());
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    new AsyncGetAllContainers().execute();
+                }
+            });
+            dialog.show();
+            Log.i("debug","passe ici");
+            return false;
+        }
+    }
+
+    //asyncTask
+    private class AsyncGetAllContainers extends AsyncTask<Void, Void, ArrayList<Container>>
     {
-        private final int position;
 
-        public OnClickListenerChooseContainer(int position)
-        {
-            this.position = position;
+        @Override
+        protected ArrayList<Container> doInBackground(Void... params) {
+            FappDAO fappDAO = new FappDAO(HomeActivity.this);
+            return fappDAO.getAllContainers();
         }
 
-        public void onClick(View v)
-        {
-            //TODO utiliser un activityForResult pour récuperer le résultat et ainsi vérifier qu'il n'y a pas eu d'erreur ?
-            Intent intent = new Intent(HomeActivity.this, ContainerActivity.class);
-            intent.putExtra("textTitleContainer",filenames.get(this.position));
-            startActivity(intent);
+        @Override
+        protected void onPostExecute (ArrayList<Container> result) {
+            containers = result;
+            listContainerAdapter = new ListContainerAdapter(HomeActivity.this, containers);
+            listViewCont.setAdapter(listContainerAdapter);
+            listContainerAdapter.notifyDataSetChanged();
         }
     }
 }

@@ -43,8 +43,6 @@ public class ContainerActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
 
-        Bundle bundle=this.getIntent().getExtras();
-
         initComponent();
         CreateDatePickerExpired();
         initListener();
@@ -81,6 +79,7 @@ public class ContainerActivity extends ActionBarActivity {
         frigo1.getItems().add(new Item(0, "Fromage", new GregorianCalendar(2014,12,31),5,lactoseProduct,null));
         frigo1.getItems().add(new Item(1, "Jambon", new GregorianCalendar(2015, 10, 01), 4, meat,null));
         frigo1.getItems().add(new Item(2, "Gervais",new GregorianCalendar(2015,01,05),9,lactoseProduct,null));
+        //fin TESTS
 
         titleContainer=(TextView) findViewById(R.id.textTitleContainer);
         titleContainer.setText(frigo1.getName());

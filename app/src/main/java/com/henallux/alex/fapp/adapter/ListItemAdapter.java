@@ -22,7 +22,7 @@ public class ListItemAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
     private TextView nameItem;
-    private TextView typeItem;
+    private TextView quantityItem;
     private TextView expiredDateItem;
 
     public ListItemAdapter(Context context, ArrayList<Item> items)
@@ -59,8 +59,8 @@ public class ListItemAdapter extends BaseAdapter {
         nameItem = (TextView)layoutListItem.findViewById(R.id.nameItem);
         nameItem.setText(items.get(position).getName());
 
-        typeItem = (TextView)layoutListItem.findViewById(R.id.typeItem);
-        typeItem.setText(items.get(position).getType().getName());
+        quantityItem = (TextView)layoutListItem.findViewById(R.id.quantityItem);
+        quantityItem.setText(String.valueOf(items.get(position).getQuantity()));
 
         expiredDateItem = (TextView)layoutListItem.findViewById(R.id.expiredDateItem);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");

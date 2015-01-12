@@ -15,14 +15,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Type item"
-        android:id="@+id/typeItem"
-        android:width="100dp" />
+        android:text="Quantity item"
+        android:id="@+id/quantityItem"
+        android:width="100dp"
+        android:gravity="center_vertical|center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Expired Date"
-        android:id="@+id/expiredDateItem" />
+        android:id="@+id/expiredDateItem"
+        android:gravity="center_vertical" />
 </LinearLayout>

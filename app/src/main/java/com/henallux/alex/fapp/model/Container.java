@@ -8,9 +8,9 @@ import java.util.GregorianCalendar;
  */
 public class Container {
     public static final int TYPE_FRIGO = 0;
-    public static final int TYPE_CONGEL = 1;
+    public static final int TYPE_FREEZER = 1;
 
-    private int id;
+    private Integer id;
     private String name;
     private GregorianCalendar lastSync;
     private ArrayList<Item> items;
@@ -20,7 +20,7 @@ public class Container {
         items = new ArrayList<>();
     }
 
-    public Container(int idCont, String name, GregorianCalendar lastSync, int type) {
+    public Container(Integer idCont, String name, GregorianCalendar lastSync, int type) {
         this();
         this.id = idCont;
         this.name = name;
@@ -28,7 +28,7 @@ public class Container {
         this.lastSync=lastSync;
     }
 
-    public Container(int idCont, String name, GregorianCalendar lastSync, ArrayList<Item> items,
+    public Container(Integer idCont, String name, GregorianCalendar lastSync, ArrayList<Item> items,
                      int type) {
         this.id = idCont;
         this.name = name;
@@ -45,7 +45,7 @@ public class Container {
         this.lastSync = lastSync;
     }
 
-    public int getIdCont() {
+    public Integer getIdCont() {
         return id;
     }
 
