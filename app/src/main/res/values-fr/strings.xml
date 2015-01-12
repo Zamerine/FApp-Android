@@ -41,4 +41,9 @@
     <string name="delete_container">Supprimer conteneur (irréversible)</string>
     <string name="back">Retour</string>
     <string name="title_dialog_edit_container">Modification de </string>
+    <string name="title_dialog_confirm_deleting">Confirmation de suppression</string>
+    <string name="message2_dialog_confirm_deleting">(Action irréversible)</string>
+    <string name="message_dialog_confirm_deleting">Voulez-vous supprimer le conteneur:</string>
+    <string name="valid_dialog_confirm_deleting">Oui</string>
+    <string name="no_dialog_confirm_deleting">Non</string>
 </resources>

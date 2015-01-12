@@ -127,7 +127,6 @@ public class HomeActivity extends ActionBarActivity{
                 }
             });
             dialog.show();
-            Log.i("debug","passe ici");
             return false;
         }
     }

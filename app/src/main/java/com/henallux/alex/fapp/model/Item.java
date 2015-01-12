@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
  * Created by Alex on 24/12/2014.
  */
 public class Item {
-    private int id;
+    private Integer id;
     private String name;
     private GregorianCalendar expiryDate;
     private int quantity;
@@ -16,7 +16,7 @@ public class Item {
     public Item() {
     }
 
-    public Item(int id, String name, GregorianCalendar expiryDate, int quantity, Type type,
+    public Item(Integer id, String name, GregorianCalendar expiryDate, int quantity, Type type,
                 GregorianCalendar lastSync) {
         this.id = id;
         this.name = name;
@@ -26,11 +26,11 @@ public class Item {
         this.lastSync = lastSync;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

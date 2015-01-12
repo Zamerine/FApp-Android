@@ -32,5 +32,10 @@
     <string name="delete_container">Delete container (irreversible)</string>
     <string name="back">Back</string>
     <string name="title_dialog_edit_container">Modification of</string>
+    <string name="title_dialog_confirm_deleting">Confirm deleting</string>
+    <string name="message_dialog_confirm_deleting">You want deleting the container :</string>
+    <string name="message2_dialog_confirm_deleting">(Irreversible action)</string>
+    <string name="valid_dialog_confirm_deleting">Yes</string>
+    <string name="no_dialog_confirm_deleting">No</string>
 
 </resources>
