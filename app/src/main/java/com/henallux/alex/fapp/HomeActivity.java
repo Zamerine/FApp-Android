@@ -33,8 +33,6 @@ public class HomeActivity extends ActionBarActivity{
     private ListView listViewCont;
     private Spinner chooseTypeCont;
 
-    private ArrayList<Container> containers = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +71,8 @@ public class HomeActivity extends ActionBarActivity{
         addContText =  (EditText) findViewById(R.id.addNewContText);
         addContBtn = (Button) findViewById(R.id.addContainerBtn);
         chooseTypeCont = (Spinner) findViewById(R.id.spinnerTypeContainer);
+        listContainerAdapter = new ListContainerAdapter(HomeActivity.this, new ArrayList<Container>());
+        listViewCont.setAdapter(listContainerAdapter);
     }
 
     private void initListener(){
@@ -105,9 +105,9 @@ public class HomeActivity extends ActionBarActivity{
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Log.i("debug","item " + position);
             Intent intent = new Intent(HomeActivity.this, ContainerActivity.class);
-            intent.putExtra("idContainer",containers.get(position).getIdCont());
+            intent.putExtra("idContainer",
+                    listContainerAdapter.getContainers().get(position).getIdCont());
             startActivity(intent);
         }
     }
@@ -117,9 +117,9 @@ public class HomeActivity extends ActionBarActivity{
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             DialogEditContainer dialog  = new DialogEditContainer(view.getContext(),
-                    containers.get(position));
+                    listContainerAdapter.getContainers().get(position));
             dialog.setTitle(getString(R.string.title_dialog_edit_container) + " " +
-                    containers.get(position).getName());
+                    listContainerAdapter.getContainers().get(position).getName());
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
@@ -143,9 +143,7 @@ public class HomeActivity extends ActionBarActivity{
 
         @Override
         protected void onPostExecute (ArrayList<Container> result) {
-            containers = result;
-            listContainerAdapter = new ListContainerAdapter(HomeActivity.this, containers);
-            listViewCont.setAdapter(listContainerAdapter);
+            listContainerAdapter.setContainers(result);
             listContainerAdapter.notifyDataSetChanged();
         }
     }

@@ -68,4 +68,12 @@ public class ListContainerAdapter extends BaseAdapter{
         }
         return layoutListContainer;
     }
+
+    public ArrayList<Container> getContainers() {
+        return containers;
+    }
+
+    public void setContainers(ArrayList<Container> containers) {
+        this.containers = containers;
+    }
 }
