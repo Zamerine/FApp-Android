@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by Alexandre on 14/01/2015.
@@ -35,23 +37,26 @@ public class SQLiteHelperFapp extends SQLiteOpenHelper {
 
     private static final String TABLE_TYPE_CREATE = "create table " + TABLE_TYPE_NAME + " ("
             + COLUMN_TYPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + COLUMN_TYPE_NAME
-            + " text, " + COLUMN_TYPE_FREEZER_DURATION + " BIGINT, "
-            + COLUMN_TYPE_DEFAULT_EXPIRY_DATE + " BIGINT)";
+            + " text, " + COLUMN_TYPE_FREEZER_DURATION + " date, "
+            + COLUMN_TYPE_DEFAULT_EXPIRY_DATE + " date)";
     private static final String TABLE_CONTAINER_CREATE = "create table " + TABLE_CONTAINER_NAME
             + " (" + COLUMN_CONTAINER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
             + COLUMN_CONTAINER_NAME + " text, " + COLUMN_CONTAINER_TYPE + " integer, "
-            + COLUMN_CONTAINER_LAST_SYNC + " BIGINT)";
+            + COLUMN_CONTAINER_LAST_SYNC + " date)";
     private static final String TABLE_ITEM_CREATE = "create table " + TABLE_ITEM_NAME + " ("
             + COLUMN_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + COLUMN_ITEM_NAME
             + " text, " + COLUMN_ITEM_ID_TYPE + " integer, " + COLUMN_ITEM_QUANTITY + " integer, "
-            + COLUMN_ITEM_ID_CONTAINER + " integer, " + COLUMN_ITEM_EXPIRY_DATE + " UNSIGNED BIG INT, "
-            + COLUMN_ITEM_LAST_SYNC + " UNSIGNED BIG INT, FOREIGN KEY(" + COLUMN_ITEM_ID_CONTAINER
+            + COLUMN_ITEM_ID_CONTAINER + " integer, " + COLUMN_ITEM_EXPIRY_DATE + " date, "
+            + COLUMN_ITEM_LAST_SYNC + " date, FOREIGN KEY(" + COLUMN_ITEM_ID_CONTAINER
             + ") REFERENCES " + TABLE_CONTAINER_NAME + "(" + COLUMN_CONTAINER_ID +  "), FOREIGN KEY("
             + COLUMN_ITEM_ID_TYPE + ") REFERENCES " + TABLE_TYPE_NAME + "(" + COLUMN_TYPE_ID + "))";
 
     private static final String TABLE_ITEM_DROP = "DROP TABLE IF EXISTS " + TABLE_ITEM_NAME;
     private static final String TABLE_TYPE_DROP = "DROP TABLE IF EXISTS " + TABLE_TYPE_NAME;
     private static final String TABLE_CONTAINER_DROP = "DROP TABLE IF EXISTS " + TABLE_CONTAINER_NAME;
+
+    private static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd",
+            Locale.ENGLISH);
 
     public SQLiteHelperFapp(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -85,19 +90,27 @@ public class SQLiteHelperFapp extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelperFapp.COLUMN_TYPE_NAME, "produit laitié");
         values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,
-                new GregorianCalendar(0,4,0).getTimeInMillis());
+                formatter.format(new GregorianCalendar(0,3,0).getTime()));
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,
+                formatter.format(new GregorianCalendar(0,0,15).getTime()));
         db.insert(SQLiteHelperFapp.TABLE_TYPE_NAME, null, values);
         values.put(SQLiteHelperFapp.COLUMN_TYPE_NAME, "Viande");
         values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,
-                new GregorianCalendar(0,6,0).getTimeInMillis());
+                formatter.format(new GregorianCalendar(0,7,0).getTime()));
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,
+                formatter.format(new GregorianCalendar(0,0,15).getTime()));
         db.insert(SQLiteHelperFapp.TABLE_TYPE_NAME, null, values);
         values.put(SQLiteHelperFapp.COLUMN_TYPE_NAME, "Fruit");
         values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,
-                new GregorianCalendar(0,5,0).getTimeInMillis());
+                formatter.format(new GregorianCalendar(0,10,0).getTime()));
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,
+                formatter.format(new GregorianCalendar(0,0,15).getTime()));
         db.insert(SQLiteHelperFapp.TABLE_TYPE_NAME, null, values);
         values.put(SQLiteHelperFapp.COLUMN_TYPE_NAME, "Poisson");
         values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,
-                new GregorianCalendar(0,6,0).getTimeInMillis());
+                formatter.format(new GregorianCalendar(0,7,0).getTime()));
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,
+                formatter.format(new GregorianCalendar(0,0,15).getTime()));
         db.insert(SQLiteHelperFapp.TABLE_TYPE_NAME, null, values);
     }
 }
