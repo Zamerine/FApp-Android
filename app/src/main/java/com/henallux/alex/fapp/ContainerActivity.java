@@ -2,6 +2,7 @@ package com.henallux.alex.fapp;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -74,31 +75,29 @@ public class ContainerActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()){
+            case R.id.action_settings:
+                return true;
+            case R.id.searchBtn:
+                Intent intent = new Intent(ContainerActivity.this, SearchActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.homeBtn:
+                intent = new Intent(ContainerActivity.this, HomeActivity.class);
+                startActivity(intent);
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void initComponent(){
-        // pour les TESTS
-        Type lactoseProduct = new Type(0,"Produit laitier", new GregorianCalendar(2014,12,31));
-        Type meat = new Type(1, "Viande", new GregorianCalendar(2014,12,31));
-        Container frigo1 = new Container(0,"Frigo1",new GregorianCalendar(2014,12,24),Container.TYPE_FRIGO);
-        frigo1.getItems().add(new Item(0, "Fromage", new GregorianCalendar(2014,12,31),5,lactoseProduct,null));
-        frigo1.getItems().add(new Item(1, "Jambon", new GregorianCalendar(2015, 10, 01), 4, meat,null));
-        frigo1.getItems().add(new Item(2, "Gervais",new GregorianCalendar(2015,01,05),9,lactoseProduct,null));
-        //fin TESTS
 
         titleContainer=(TextView) findViewById(R.id.textTitleContainer);
         titleContainer.setText(container.getName());
 
         listViewItems = (ListView) findViewById(R.id.listViewItems);
-        listItemAdapter = new ListItemAdapter(this, frigo1.getItems());
+        listItemAdapter = new ListItemAdapter(this, new ArrayList<Item>());
         listViewItems.setAdapter(listItemAdapter);
 
         addItemNameText =  (EditText) findViewById(R.id.editTextItemName);
