@@ -208,7 +208,7 @@ public class FappDAO {
 
         GregorianCalendar expiryDate = new GregorianCalendar();
         try {
-            expiryDate.setGregorianChange(formatter.parse(cursor.getString(cursor.getColumnIndex(
+            expiryDate.setTime(formatter.parse(cursor.getString(cursor.getColumnIndex(
                     SQLiteHelperFapp.COLUMN_ITEM_EXPIRY_DATE))));
         } catch (ParseException e) {
             //TODO gérer une erreur
@@ -217,7 +217,7 @@ public class FappDAO {
 
         GregorianCalendar lastSync = new GregorianCalendar();
         try {
-            lastSync.setGregorianChange(formatter.parse(cursor.getString(cursor.getColumnIndex(
+            lastSync.setTime(formatter.parse(cursor.getString(cursor.getColumnIndex(
                     SQLiteHelperFapp.COLUMN_ITEM_LAST_SYNC))));
         } catch (ParseException e) {
             //TODO gérer une erreur
@@ -274,24 +274,10 @@ public class FappDAO {
         Type type = new Type();
         type.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_ID)));
         type.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_NAME)));
-
-        GregorianCalendar freezerDuration = new GregorianCalendar();
-        try {
-            freezerDuration.setGregorianChange(formatter.parse(cursor.getString(cursor.getColumnIndex(
-                    SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION))));
-        } catch (ParseException e) {
-            //TODO gérer une erreur
-        }
-        type.setFreezerDuration(freezerDuration);
-
-        GregorianCalendar expiryDate = new GregorianCalendar();
-        try {
-            expiryDate.setGregorianChange(formatter.parse(cursor.getString(cursor.getColumnIndex(
-                    SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE))));
-        } catch (ParseException e) {
-            //TODO gérer une erreur
-        }
-        type.setDefaultExpiryDate(expiryDate);
+        type.setFreezerDuration(cursor.getInt(cursor.getColumnIndex(
+                SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION)));
+        type.setDefaultExpiryDate(cursor.getInt(cursor.getColumnIndex(
+                SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE)));
 
         return type;
     }

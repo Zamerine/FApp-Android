@@ -195,9 +195,11 @@ public class ContainerActivity extends ActionBarActivity {
     }
 
     private boolean expiredDateIsCorrect() {
-        if( addItemDateText.getText().toString().isEmpty() &&
-                container.getType() == Container.TYPE_FRIGO)
+        if(container.getType() == Container.TYPE_FREEZER)
+            return true;
+        if(addItemDateText.getText().toString().isEmpty()) {
             return false;
+        }
         return item.getExpiryDate().compareTo(new GregorianCalendar()) > 0;
     }
 

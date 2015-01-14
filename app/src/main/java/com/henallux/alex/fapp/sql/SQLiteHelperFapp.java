@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -37,8 +38,8 @@ public class SQLiteHelperFapp extends SQLiteOpenHelper {
 
     private static final String TABLE_TYPE_CREATE = "create table " + TABLE_TYPE_NAME + " ("
             + COLUMN_TYPE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " + COLUMN_TYPE_NAME
-            + " text, " + COLUMN_TYPE_FREEZER_DURATION + " date, "
-            + COLUMN_TYPE_DEFAULT_EXPIRY_DATE + " date)";
+            + " text, " + COLUMN_TYPE_FREEZER_DURATION + " integer, "
+            + COLUMN_TYPE_DEFAULT_EXPIRY_DATE + " integer)";
     private static final String TABLE_CONTAINER_CREATE = "create table " + TABLE_CONTAINER_NAME
             + " (" + COLUMN_CONTAINER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
             + COLUMN_CONTAINER_NAME + " text, " + COLUMN_CONTAINER_TYPE + " integer, "
@@ -54,9 +55,6 @@ public class SQLiteHelperFapp extends SQLiteOpenHelper {
     private static final String TABLE_ITEM_DROP = "DROP TABLE IF EXISTS " + TABLE_ITEM_NAME;
     private static final String TABLE_TYPE_DROP = "DROP TABLE IF EXISTS " + TABLE_TYPE_NAME;
     private static final String TABLE_CONTAINER_DROP = "DROP TABLE IF EXISTS " + TABLE_CONTAINER_NAME;
-
-    private static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd",
-            Locale.ENGLISH);
 
     public SQLiteHelperFapp(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -89,28 +87,20 @@ public class SQLiteHelperFapp extends SQLiteOpenHelper {
     private void initTypes(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelperFapp.COLUMN_TYPE_NAME, "produit laitié");
-        values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,
-                formatter.format(new GregorianCalendar(0,3,0).getTime()));
-        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,
-                formatter.format(new GregorianCalendar(0,0,15).getTime()));
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,3);
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,14);
         db.insert(SQLiteHelperFapp.TABLE_TYPE_NAME, null, values);
         values.put(SQLiteHelperFapp.COLUMN_TYPE_NAME, "Viande");
-        values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,
-                formatter.format(new GregorianCalendar(0,7,0).getTime()));
-        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,
-                formatter.format(new GregorianCalendar(0,0,15).getTime()));
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,7);
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,15);
         db.insert(SQLiteHelperFapp.TABLE_TYPE_NAME, null, values);
         values.put(SQLiteHelperFapp.COLUMN_TYPE_NAME, "Fruit");
-        values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,
-                formatter.format(new GregorianCalendar(0,10,0).getTime()));
-        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,
-                formatter.format(new GregorianCalendar(0,0,15).getTime()));
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,10);
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,15);
         db.insert(SQLiteHelperFapp.TABLE_TYPE_NAME, null, values);
         values.put(SQLiteHelperFapp.COLUMN_TYPE_NAME, "Poisson");
-        values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,
-                formatter.format(new GregorianCalendar(0,7,0).getTime()));
-        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,
-                formatter.format(new GregorianCalendar(0,0,15).getTime()));
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION,7);
+        values.put(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE,15);
         db.insert(SQLiteHelperFapp.TABLE_TYPE_NAME, null, values);
     }
 }

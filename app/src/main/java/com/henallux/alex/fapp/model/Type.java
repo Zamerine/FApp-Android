@@ -8,20 +8,20 @@ import java.util.GregorianCalendar;
 public class Type {
     private int id;
     private String name;
-    private GregorianCalendar freezerDuration;
-    private GregorianCalendar defaultExpiryDate;
+    private Integer freezerDuration;
+    private Integer defaultExpiryDate;
 
     public Type() {
     }
 
-    public Type(int id, String name, GregorianCalendar freezerDuration, GregorianCalendar defaultExpiryDate) {
+    public Type(int id, String name, Integer freezerDuration, Integer defaultExpiryDate) {
         this.id = id;
         this.name = name;
         this.freezerDuration = freezerDuration;
         this.defaultExpiryDate = defaultExpiryDate;
     }
 
-    public Type(int id, String name, GregorianCalendar freezerDuration) {
+    public Type(int id, String name, Integer freezerDuration) {
         this.id = id;
         this.name = name;
         this.freezerDuration = freezerDuration;
@@ -43,19 +43,19 @@ public class Type {
         this.name = name;
     }
 
-    public GregorianCalendar getFreezerDuration() {
+    public Integer getFreezerDuration() {
         return freezerDuration;
     }
 
-    public void setFreezerDuration(GregorianCalendar freezerDuration) {
+    public void setFreezerDuration(Integer freezerDuration) {
         this.freezerDuration = freezerDuration;
     }
 
-    public GregorianCalendar getDefaultExpiryDate() {
+    public Integer getDefaultExpiryDate() {
         return defaultExpiryDate;
     }
 
-    public void setDefaultExpiryDate(GregorianCalendar defaultExpiryDate) {
+    public void setDefaultExpiryDate(Integer defaultExpiryDate) {
         this.defaultExpiryDate = defaultExpiryDate;
     }
 
