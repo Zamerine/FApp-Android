@@ -16,6 +16,7 @@ import com.henallux.alex.fapp.sql.FappDAO;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -79,19 +80,19 @@ public class DialogChooseTypeItem extends Dialog{
             item.setType(types.get(spinnerType.getSelectedItemPosition()));
             if(container.getType() == Container.TYPE_FREEZER)
                 computeExpiredDateForFreezer();
-            item.setLastSync(new GregorianCalendar());
+            item.setLastSync(new Date());
             FappDAO fappDAO = new FappDAO(getContext());
             fappDAO.createItem(item, container);
             DialogChooseTypeItem.this.dismiss();
         }
 
         private void computeExpiredDateForFreezer() {
-            item.getExpiryDate().add(GregorianCalendar.YEAR, types.get(spinnerType.
-                    getSelectedItemPosition()).getFreezerDuration().get(GregorianCalendar.YEAR));
-            item.getExpiryDate().add(GregorianCalendar.MONTH, types.get(spinnerType.
-                    getSelectedItemPosition()).getFreezerDuration().get(GregorianCalendar.MONTH));
-            item.getExpiryDate().add(GregorianCalendar.DAY_OF_MONTH, types.get(spinnerType.
-                    getSelectedItemPosition()).getFreezerDuration().get(GregorianCalendar.DAY_OF_MONTH));
+            item.getExpiryDate().setYear(types.get(spinnerType.
+                    getSelectedItemPosition()).getFreezerDuration().getYear());
+            item.getExpiryDate().setMonth( types.get(spinnerType.
+                    getSelectedItemPosition()).getFreezerDuration().getMonth());
+            item.getExpiryDate().setDate(types.get(spinnerType.
+                    getSelectedItemPosition()).getFreezerDuration().getDate());
         }
     }
     private class OnClickBack implements View.OnClickListener {

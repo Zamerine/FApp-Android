@@ -22,6 +22,7 @@ import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.sql.FappDAO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 
@@ -96,7 +97,7 @@ public class HomeActivity extends ActionBarActivity{
                         Toast.LENGTH_SHORT).show();
             } else {
                 Container container = new Container(null, addContText.getText().toString(),
-                        new GregorianCalendar(),chooseTypeCont.getSelectedItemPosition());
+                        new Date(),chooseTypeCont.getSelectedItemPosition());
                 FappDAO fappDAO = new FappDAO(HomeActivity.this);
                 fappDAO.createContainer(container);
                 addContText.setText("");

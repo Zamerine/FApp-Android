@@ -1,23 +1,32 @@
 package com.henallux.alex.fapp.model;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
  * Created by Alex on 24/12/2014.
  */
 public class Item {
+
+    @com.google.gson.annotations.SerializedName("id")
+    private String mId;
     private Integer id;
+    @com.google.gson.annotations.SerializedName("name")
     private String name;
-    private GregorianCalendar expiryDate;
+    @com.google.gson.annotations.SerializedName("expiryDate")
+    private Date expiryDate;
+    @com.google.gson.annotations.SerializedName("quantity")
     private int quantity;
+    @com.google.gson.annotations.SerializedName("type")
     private Type type;
-    private GregorianCalendar lastSync;
+    @com.google.gson.annotations.SerializedName("lastSync")
+    private Date lastSync;
 
     public Item() {
     }
 
-    public Item(Integer id, String name, GregorianCalendar expiryDate, int quantity, Type type,
-                GregorianCalendar lastSync) {
+    public Item(Integer id, String name, Date expiryDate, int quantity, Type type,
+                Date lastSync) {
         this.id = id;
         this.name = name;
         this.expiryDate = expiryDate;
@@ -58,19 +67,23 @@ public class Item {
         this.type = type;
     }
 
-    public GregorianCalendar getExpiryDate() {
+    public Date getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(GregorianCalendar expiryDate) {
+    public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
     }
 
-    public GregorianCalendar getLastSync() {
+    public Date getLastSync() {
         return lastSync;
     }
 
-    public void setLastSync(GregorianCalendar lastSync) {
+    public void setLastSync(Date lastSync) {
         this.lastSync = lastSync;
     }
+
+    public String getmId() {return mId;}
+
+    public void setmId(String mId) {this.mId = mId;    }
 }

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.henallux.alex.fapp.adapter.ListItemAdapter;
@@ -132,7 +133,7 @@ public class ContainerActivity extends ActionBarActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            GregorianCalendar expiredDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);//TODO vérifier que pas une date du passé
+            Date expiredDate = new Date(year, monthOfYear, dayOfMonth);//TODO vérifier que pas une date du passé
             item.setExpiryDate(expiredDate);
             addItemDateText.setText(formatter.format(expiredDate.getTime()));
         }
@@ -198,7 +199,7 @@ public class ContainerActivity extends ActionBarActivity {
         if( addItemDateText.getText().toString().isEmpty() &&
                 container.getType() == Container.TYPE_FRIGO)
             return false;
-        return item.getExpiryDate().compareTo(new GregorianCalendar()) > 0;
+        return item.getExpiryDate().compareTo(new Date()) > 0;
     }
 
     //asyncTask

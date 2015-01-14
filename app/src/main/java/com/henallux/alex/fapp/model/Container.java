@@ -1,6 +1,7 @@
 package com.henallux.alex.fapp.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -10,17 +11,22 @@ public class Container {
     public static final int TYPE_FRIGO = 0;
     public static final int TYPE_FREEZER = 1;
 
+    @com.google.gson.annotations.SerializedName("id")
+    private String mId;
     private Integer id;
+    @com.google.gson.annotations.SerializedName("name")
     private String name;
-    private GregorianCalendar lastSync;
+    @com.google.gson.annotations.SerializedName("lastSync")
+    private Date lastSync;
     private ArrayList<Item> items;
+    @com.google.gson.annotations.SerializedName("type")
     private int type;
 
     public Container() {
         items = new ArrayList<>();
     }
 
-    public Container(Integer idCont, String name, GregorianCalendar lastSync, int type) {
+    public Container(Integer idCont, String name, Date lastSync, int type) {
         this();
         this.id = idCont;
         this.name = name;
@@ -28,7 +34,7 @@ public class Container {
         this.lastSync=lastSync;
     }
 
-    public Container(Integer idCont, String name, GregorianCalendar lastSync, ArrayList<Item> items,
+    public Container(Integer idCont, String name, Date lastSync, ArrayList<Item> items,
                      int type) {
         this.id = idCont;
         this.name = name;
@@ -37,11 +43,11 @@ public class Container {
         this.type = type;
     }
 
-    public GregorianCalendar getLastSync() {
+    public Date getLastSync() {
         return lastSync;
     }
 
-    public void setLastSync(GregorianCalendar lastSync) {
+    public void setLastSync(Date lastSync) {
         this.lastSync = lastSync;
     }
 
