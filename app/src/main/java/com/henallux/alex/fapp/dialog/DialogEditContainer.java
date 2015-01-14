@@ -25,11 +25,9 @@ public class DialogEditContainer extends Dialog {
     private Button bntEditContainer;
     private Button bntDeleteContainer;
     private Button bntBack;
-    private Context context;
 
     public DialogEditContainer(Context context, Container container) {
         super(context);
-        this.context = context;
         this.setContentView(R.layout.dialog_edit_container);
         this.container = container;
         this.containerIsDeleted = false;
@@ -56,12 +54,12 @@ public class DialogEditContainer extends Dialog {
         @Override
         public void onClick(View v) {
             if(nameContainer.getText().toString().equals("")){
-                Toast.makeText(context, context.getResources().getString(R.string.container_name_empty),
+                Toast.makeText(getContext(), getContext().getResources().getString(R.string.container_name_empty),
                         Toast.LENGTH_SHORT).show();
             } else {
                 if(!nameContainer.getText().toString().equals(container.getName())) {
                     container.setName(nameContainer.getText().toString());
-                    FappDAO fappDAO = new FappDAO(context);
+                    FappDAO fappDAO = new FappDAO(getContext());
                     fappDAO.updateContainer(container);
                 }
                 DialogEditContainer.this.dismiss();
@@ -87,18 +85,18 @@ public class DialogEditContainer extends Dialog {
         }
 
         public AlertDialog.Builder createAlertDialogBuilder() {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-            alertDialogBuilder.setTitle(context.getResources().getString(
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+            alertDialogBuilder.setTitle(getContext().getResources().getString(
                     R.string.title_dialog_confirm_deleting));
-            alertDialogBuilder.setMessage(context.getResources().getString(
+            alertDialogBuilder.setMessage(getContext().getResources().getString(
                     R.string.message_dialog_confirm_deleting) + " " + container.getName()
-                    + context.getResources().getString(R.string.message2_dialog_confirm_deleting));
+                    + getContext().getResources().getString(R.string.message2_dialog_confirm_deleting));
             alertDialogBuilder.setPositiveButton(R.string.valid_dialog_confirm_deleting,
                     new OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            FappDAO fappDAO = new FappDAO(context);
+                            FappDAO fappDAO = new FappDAO(getContext());
                             fappDAO.deleteContainer(container);
                             containerIsDeleted = true;
                         }

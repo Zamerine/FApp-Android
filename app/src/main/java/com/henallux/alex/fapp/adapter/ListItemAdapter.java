@@ -67,4 +67,12 @@ public class ListItemAdapter extends BaseAdapter {
         expiredDateItem.setText(sdf.format(items.get(position).getExpiryDate().getTime()));
         return layoutListItem;
     }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
+    }
 }

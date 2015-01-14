@@ -17,6 +17,10 @@ import java.util.GregorianCalendar;
  * Created by Alexandre on 7/01/2015.
  */
 public class FappDAO {
+    private static final String QUERY_READ_ITEMS_CONTAINER = "SELECT * FROM "
+            + SQLiteHelperItem.TABLE_NAME + " i INNER JOIN " + SQLiteHelperType.TABLE_NAME
+            + " t ON i." + SQLiteHelperItem.COLUMN_ID_TYPE + "=b." + SQLiteHelperType.COLUMN_ID
+            + " WHERE i." + SQLiteHelperItem.COLUMN_ID_CONTAINER + "=?";
 
     private SQLiteDatabase database;
     private SQLiteHelperContainer dbHelperContainer;
@@ -167,8 +171,8 @@ public class FappDAO {
         database = dbHelperItem.getReadableDatabase();
         ArrayList<Item> items = new ArrayList<>();
 
-        Cursor cursor = database.query(SQLiteHelperItem.TABLE_NAME, null, null, null, null, null,
-                SQLiteHelperItem.COLUMN_NAME);
+        Cursor cursor = database.rawQuery(QUERY_READ_ITEMS_CONTAINER,
+                new String[]{String.valueOf(containerId)});
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
@@ -226,7 +230,7 @@ public class FappDAO {
         ArrayList<Type> types = new ArrayList<>();
 
         Cursor cursor = database.query(SQLiteHelperType.TABLE_NAME, null, null, null,
-                null, null, null);
+                null, null, SQLiteHelperType.COLUMN_NAME);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){

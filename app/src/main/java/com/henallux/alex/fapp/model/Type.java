@@ -58,4 +58,9 @@ public class Type {
     public void setDefaultExpiryDate(GregorianCalendar defaultExpiryDate) {
         this.defaultExpiryDate = defaultExpiryDate;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -35,7 +35,7 @@
     <string name="type_container_freezer">Congélateur</string>
     <string name="type_container_prompt">Type conteneur</string>
     <string name="container_name_empty">Le nom du conteneur est vide</string>
-    <string name="toast_add_container">Le nouveau conteneur a été ajouté</string>
+    <string name="toast_add_container">Le nouveau conteneur à été ajouté</string>
     <string name="label_edit_name_container">Nom conteneur</string>
     <string name="edit_name_container">Changer nom</string>
     <string name="delete_container">Supprimer conteneur (irréversible)</string>
@@ -46,4 +46,10 @@
     <string name="message_dialog_confirm_deleting">Voulez-vous supprimer le conteneur:</string>
     <string name="valid_dialog_confirm_deleting">Oui</string>
     <string name="no_dialog_confirm_deleting">Non</string>
+    <string name="bnt_valid_add_item">Ajouter item</string>
+    <string name="error_item_name">Veuillez donner un nom à l\'item !</string>
+    <string name="error_item_expired_date">Veuillez choisir une date future de péremption !</string>
+    <string name="error_item_quantity">Veuillez donner une quantité non nul !</string>
+    <string name="title_dialog_add_item">Nouveau item</string>
+    <string name="label_type_item">Type:</string>
 </resources>

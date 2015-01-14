@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/listViewItems"
         android:layout_below="@+id/colItemName"
-        android:layout_above="@+id/editTextItemName"
+        android:layout_above="@+id/layoutAddItem"
         android:layout_marginTop="20dp" />
 
     <Button
@@ -75,38 +75,37 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:inputType="text"
-        android:layout_width="90dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextItemName"
-        android:layout_above="@id/bntAddItem"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="@string/columnName"/>
-
-    <EditText
-        android:inputType="number"
-        android:layout_width="90dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextItemQuantity"
-        android:layout_above="@id/bntAddItem"
-        android:layout_toEndOf="@+id/editTextItemName"
-        android:layout_toRightOf="@+id/editTextItemName"
-        android:hint="@string/columnQty"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"/>
-
-    <EditText
-        android:inputType="date"
+    <LinearLayout
+        android:id="@+id/layoutAddItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextItemExpiredDate"
         android:layout_above="@id/bntAddItem"
-        android:layout_toEndOf="@+id/editTextItemQuantity"
-        android:layout_toRightOf="@id/editTextItemQuantity"
-        android:hint="@string/columnExpiration"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:focusable="false" />
+        android:layout_centerHorizontal="true">
+        <EditText
+            android:inputType="text"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextItemName"
+            android:hint="@string/columnName"
+            android:singleLine="true" />
+
+        <EditText
+            android:inputType="number"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextItemQuantity"
+            android:hint="@string/columnQty"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"/>
+
+        <EditText
+            android:inputType="date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextItemExpiredDate"
+            android:hint="@string/columnExpiration"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:focusable="false" />
+    </LinearLayout>
 </RelativeLayout>

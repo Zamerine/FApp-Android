@@ -1,6 +1,8 @@
 package com.henallux.alex.fapp;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,20 +16,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import com.henallux.alex.fapp.adapter.ListItemAdapter;
+import com.henallux.alex.fapp.dialog.DialogChooseTypeItem;
 import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.model.Item;
 import com.henallux.alex.fapp.model.Type;
+import com.henallux.alex.fapp.sql.FappDAO;
 
 
 public class ContainerActivity extends ActionBarActivity {
-    static final int DATE_DIALOG_ID = 999;
+    private Container container;
+    private Item item;
 
     private TextView titleContainer;
     private ListView listViewItems;
+    private ListItemAdapter listItemAdapter;
 
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -43,9 +50,15 @@ public class ContainerActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container);
 
+        Bundle bundle=this.getIntent().getExtras();
+        initContainer(bundle.getInt("idContainer"));
+
         initComponent();
         CreateDatePickerExpired();
         initListener();
+
+        item = new Item();
+        new AsyncGetItemForContainer().execute(bundle.getInt("idContainer"));
     }
 
 
@@ -82,18 +95,21 @@ public class ContainerActivity extends ActionBarActivity {
         //fin TESTS
 
         titleContainer=(TextView) findViewById(R.id.textTitleContainer);
-        titleContainer.setText(frigo1.getName());
+        titleContainer.setText(container.getName());
 
         listViewItems = (ListView) findViewById(R.id.listViewItems);
-        ListItemAdapter listItemAdapter = new ListItemAdapter(this, frigo1.getItems());
+        listItemAdapter = new ListItemAdapter(this, frigo1.getItems());
         listViewItems.setAdapter(listItemAdapter);
 
         addItemNameText =  (EditText) findViewById(R.id.editTextItemName);
         addItemQtyText =  (EditText) findViewById(R.id.editTextItemQuantity);
         addItemDateText =  (EditText) findViewById(R.id.editTextItemExpiredDate);
+        if(container.getType() == Container.TYPE_FREEZER) {
+            addItemDateText.setVisibility(View.INVISIBLE);
+            addItemDateText.setWidth(0);
+        }
 
-        //        addFoodBtn = (Button) findViewById(R.id.addItemBtn);
-        //        addFoodBtn.setOnClickListener(new OnClickListenerAddFood());
+        addFoodBtn = (Button) findViewById(R.id.bntAddItem);
     }
 
     private void CreateDatePickerExpired(){
@@ -104,6 +120,12 @@ public class ContainerActivity extends ActionBarActivity {
 
     private void initListener(){
         addItemDateText.setOnClickListener(new OnClickListenerShowDatePickerDialog());
+        addFoodBtn.setOnClickListener(new OnClickListenerAddFood());
+    }
+
+    private void initContainer(int idContainer){
+        FappDAO fappDAO = new FappDAO(this);
+        container = fappDAO.getContainerByID(idContainer);
     }
 
     //listener
@@ -111,7 +133,9 @@ public class ContainerActivity extends ActionBarActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            Toast.makeText(ContainerActivity.this, dayOfMonth + " " + monthOfYear + " " + year, Toast.LENGTH_SHORT).show();
+            GregorianCalendar expiredDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);//TODO vérifier que pas une date du passé
+            item.setExpiryDate(expiredDate);
+            addItemDateText.setText(formatter.format(expiredDate.getTime()));
         }
     }
 
@@ -125,12 +149,73 @@ public class ContainerActivity extends ActionBarActivity {
     class OnClickListenerAddFood implements View.OnClickListener{
         @Override
         public void onClick(View v){
-//            names.add(addFoodNameText.getText().toString());
-//            quantities.add(Integer.parseInt(addFoodQtyText.getText().toString()));  //TODO changer ces editText en numberPicker et datePicker
-//            dates.add(addFoodDateText.getText().toString());
-//            listNameFood.invalidateViews(); // TODO OK CA MARCHE pour le moment; possible que quand ca sera lié à la DB ca ne marchera plus ==>  http://stackoverflow.com/questions/19656325/listview-not-updating-after-database-update-and-adapter-notifydatasetchanged/19657500#19657500
-//            listQuantitiesFood.invalidateViews();
-//            listDatesFood.invalidateViews();
+            if(allFieldsIsFilled()) {
+                item.setName(addItemNameText.getText().toString());
+                item.setQuantity(Integer.valueOf(addItemQtyText.getText().toString()));
+                DialogChooseTypeItem dialog = new DialogChooseTypeItem(v.getContext(), item,
+                        container);
+                dialog.setTitle(getString(R.string.title_dialog_add_item));
+                dialog.setOnDismissListener( new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        new AsyncGetItemForContainer().execute(container.getIdCont());
+                        addItemNameText.setText("");
+                        addItemQtyText.setText("");
+                        addItemDateText.setText("");
+                    }
+                });
+                dialog.show();
+            }
+        }
+    }
+    private boolean allFieldsIsFilled() {
+        if(addItemNameText.getText().toString().isEmpty()) {
+            Toast.makeText(ContainerActivity.this, getString(R.string.error_item_name),
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(addItemQtyIsEmpty()) {
+            Toast.makeText(ContainerActivity.this, getString(R.string.error_item_quantity),
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!expiredDateIsCorrect()){
+            Toast.makeText(ContainerActivity.this, getString(R.string.error_item_expired_date),
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean addItemQtyIsEmpty(){
+        return addItemQtyText.getText().toString().isEmpty() ||
+                Integer.valueOf(addItemQtyText.getText().toString()) == 0;
+    }
+
+    private boolean expiredDateIsCorrect() {
+        if( addItemDateText.getText().toString().isEmpty() &&
+                container.getType() == Container.TYPE_FRIGO)
+            return false;
+        return item.getExpiryDate().compareTo(new GregorianCalendar()) > 0;
+    }
+
+    //asyncTask
+    private class AsyncGetItemForContainer extends AsyncTask<Integer, Void, ArrayList<Item>>
+    {
+
+        @Override
+        protected ArrayList<Item> doInBackground(Integer... params) {
+            FappDAO fappDAO = new FappDAO(ContainerActivity.this);
+            return fappDAO.getContainerItems(params[0]); //TODO verifier qu'il y a bien un paramètre
+        }
+
+        @Override
+        protected void onPostExecute (ArrayList<Item> result) {
+            listItemAdapter.setItems(result);
+            listItemAdapter.notifyDataSetChanged();
         }
     }
 }
