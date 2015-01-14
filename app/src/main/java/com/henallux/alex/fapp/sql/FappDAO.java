@@ -18,14 +18,13 @@ import java.util.GregorianCalendar;
  */
 public class FappDAO {
     private static final String QUERY_READ_ITEMS_CONTAINER = "SELECT * FROM "
-            + SQLiteHelperItem.TABLE_NAME + " i INNER JOIN " + SQLiteHelperType.TABLE_NAME
-            + " t ON i." + SQLiteHelperItem.COLUMN_ID_TYPE + "=b." + SQLiteHelperType.COLUMN_ID
-            + " WHERE i." + SQLiteHelperItem.COLUMN_ID_CONTAINER + "=?";
+            + SQLiteHelperFapp.TABLE_ITEM_NAME + " i INNER JOIN " + SQLiteHelperFapp.TABLE_TYPE_NAME
+            + " t ON i." + SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE + "=t."
+            + SQLiteHelperFapp.COLUMN_TYPE_ID + " WHERE i."
+            + SQLiteHelperFapp.COLUMN_ITEM_ID_CONTAINER + "=?";
 
     private SQLiteDatabase database;
-    private SQLiteHelperContainer dbHelperContainer;
-    private SQLiteHelperItem dbHelperItem;
-    private SQLiteHelperType dbHelperType;
+    private SQLiteHelperFapp dbHelperFapp;
     private Context context;
 
     public FappDAO(Context context) {
@@ -34,44 +33,45 @@ public class FappDAO {
 
     //<editor-fold defaultstate="collapsed" desc="container">
     public void createContainer (Container container){
-        dbHelperContainer = new SQLiteHelperContainer(context);
-        database = dbHelperContainer.getWritableDatabase();
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SQLiteHelperContainer.COLUMN_NAME, container.getName());
-        values.put(SQLiteHelperContainer.COLUMN_TYPE, container.getType());
-        values.put(SQLiteHelperContainer.COLUMN_LAST_SYNC, container.getLastSync().getTimeInMillis());
-        database.insert(SQLiteHelperContainer.TABLE_NAME, null, values);
+        values.put(SQLiteHelperFapp.COLUMN_CONTAINER_NAME, container.getName());
+        values.put(SQLiteHelperFapp.COLUMN_CONTAINER_TYPE, container.getType());
+        values.put(SQLiteHelperFapp.COLUMN_CONTAINER_LAST_SYNC, container.getLastSync().getTimeInMillis());
+        database.insert(SQLiteHelperFapp.TABLE_CONTAINER_NAME, null, values);
         database.close();
-        dbHelperContainer.close();
+        dbHelperFapp.close();
     }
 
     public void deleteContainer (Container container){
         deleteItemsOfContainer(container);
-        dbHelperContainer = new SQLiteHelperContainer(context);
-        database = dbHelperContainer.getWritableDatabase();
-        database.delete(SQLiteHelperContainer.TABLE_NAME,
-                SQLiteHelperContainer.COLUMN_ID + " = " + container.getIdCont(), null);
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getWritableDatabase();
+        database.delete(SQLiteHelperFapp.TABLE_CONTAINER_NAME,
+                SQLiteHelperFapp.COLUMN_CONTAINER_ID + " = " + container.getIdCont(), null);
         database.close();
-        dbHelperContainer.close();
+        dbHelperFapp.close();
     }
 
     public void updateContainer (Container container){
-        dbHelperContainer = new SQLiteHelperContainer(context);
-        database = dbHelperContainer.getWritableDatabase();
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SQLiteHelperContainer.COLUMN_NAME, container.getName());
-        values.put(SQLiteHelperContainer.COLUMN_LAST_SYNC, container.getLastSync().getTimeInMillis());
-        database.update(SQLiteHelperContainer.TABLE_NAME, values, "ID=" + container.getIdCont(), null);
+        values.put(SQLiteHelperFapp.COLUMN_CONTAINER_NAME, container.getName());
+        values.put(SQLiteHelperFapp.COLUMN_CONTAINER_LAST_SYNC, container.getLastSync().getTimeInMillis());
+        database.update(SQLiteHelperFapp.TABLE_CONTAINER_NAME, values, "ID=" + container.getIdCont(), null);
         database.close();
-        dbHelperContainer.close();
+        dbHelperFapp.close();
     }
 
     public Container getContainerByID(int id) {
-        dbHelperContainer = new SQLiteHelperContainer(context);
-        database = dbHelperContainer.getReadableDatabase();
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getReadableDatabase();
         Container container;
-        Cursor cursor = database.query(SQLiteHelperContainer.TABLE_NAME, null, "ID=" + id, null,
-                null, null, null);
+        Cursor cursor = database.query(SQLiteHelperFapp.TABLE_CONTAINER_NAME, null,
+                SQLiteHelperFapp.COLUMN_CONTAINER_ID+ "=" + id,
+                null, null, null, null);
 
         cursor.moveToFirst();
         if(!cursor.isAfterLast())
@@ -81,17 +81,17 @@ public class FappDAO {
 
         cursor.close();
         database.close();
-        dbHelperContainer.close();
+        dbHelperFapp.close();
         return container;
     }
 
     public ArrayList<Container> getAllContainers(){
-        dbHelperContainer = new SQLiteHelperContainer(context);
-        database = dbHelperContainer.getReadableDatabase();
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getReadableDatabase();
         ArrayList<Container> containers = new ArrayList<>();
 
-        Cursor cursor = database.query(SQLiteHelperContainer.TABLE_NAME, null, null, null, null,
-                null, SQLiteHelperContainer.COLUMN_NAME);
+        Cursor cursor = database.query(SQLiteHelperFapp.TABLE_CONTAINER_NAME, null, null, null,
+                null, null, SQLiteHelperFapp.COLUMN_CONTAINER_NAME);
 
         if(cursor.getCount() != 0) {
             cursor.moveToFirst();
@@ -102,18 +102,18 @@ public class FappDAO {
         }
         cursor.close();
         database.close();
-        dbHelperContainer.close();
+        dbHelperFapp.close();
         return containers;
     }
 
     private Container converterContainer(Cursor cursor) {
         Container container = new Container();
-        container.setIdCont(cursor.getInt(cursor.getColumnIndex(SQLiteHelperContainer.COLUMN_ID)));
-        container.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperContainer.COLUMN_NAME)));
-        container.setType(cursor.getInt(cursor.getColumnIndex(SQLiteHelperContainer.COLUMN_TYPE)));
+        container.setIdCont(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_ID)));
+        container.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_NAME)));
+        container.setType(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_TYPE)));
         GregorianCalendar lastSync = new GregorianCalendar();
         lastSync.setGregorianChange(new Date(cursor.getInt(
-                cursor.getColumnIndex(SQLiteHelperContainer.COLUMN_LAST_SYNC))));
+                cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_LAST_SYNC))));
         container.setLastSync(lastSync);
         return container;
     }
@@ -121,54 +121,55 @@ public class FappDAO {
 
     //<editor-fold defaultstate="collapsed" desc="item">
     public void createItem(Item item, Container container) {
-        dbHelperItem = new SQLiteHelperItem(context);
-        database = dbHelperItem.getWritableDatabase();
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SQLiteHelperItem.COLUMN_NAME, item.getName());
-        values.put(SQLiteHelperItem.COLUMN_QUANTITY, item.getQuantity());
-        values.put(SQLiteHelperItem.COLUMN_ID_TYPE, item.getType().getId());
-        values.put(SQLiteHelperItem.COLUMN_ID_CONTAINER, container.getIdCont());
-        values.put(SQLiteHelperItem.COLUMN_EXPIRY_DATE, item.getExpiryDate().getTimeInMillis());
-        values.put(SQLiteHelperItem.COLUMN_LAST_SYNC, item.getLastSync().getTimeInMillis());
-        database.insert(SQLiteHelperItem.TABLE_NAME, null, values);
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_NAME, item.getName());
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_QUANTITY, item.getQuantity());
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE, item.getType().getId());
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_ID_CONTAINER, container.getIdCont());
+        long d = item.getExpiryDate().getTimeInMillis();
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_EXPIRY_DATE, d);
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_LAST_SYNC, item.getLastSync().getTimeInMillis());
+        database.insert(SQLiteHelperFapp.TABLE_ITEM_NAME, null, values);
         database.close();
-        dbHelperItem.close();
+        dbHelperFapp.close();
     }
 
     public void deleteItem(Item item) {
-        dbHelperItem = new SQLiteHelperItem(context);
-        database = dbHelperItem.getWritableDatabase();
-        database.delete(SQLiteHelperItem.TABLE_NAME,
-                SQLiteHelperItem.COLUMN_ID + " = " + item.getId(), null);
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getWritableDatabase();
+        database.delete(SQLiteHelperFapp.TABLE_ITEM_NAME,
+                SQLiteHelperFapp.COLUMN_ITEM_ID + " = " + item.getId(), null);
         database.close();
-        dbHelperItem.close();
+        dbHelperFapp.close();
     }
 
     public void deleteItemsOfContainer(Container container) {
-        dbHelperItem = new SQLiteHelperItem(context);
-        database = dbHelperItem.getWritableDatabase();
-        database.delete(SQLiteHelperItem.TABLE_NAME, SQLiteHelperItem.COLUMN_ID_CONTAINER + "= "
-                + container.getIdCont(),null);
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getWritableDatabase();
+        database.delete(SQLiteHelperFapp.TABLE_ITEM_NAME, SQLiteHelperFapp.COLUMN_ITEM_ID_CONTAINER
+                + "= " + container.getIdCont(),null);
         database.close();
-        dbHelperItem.close();
+        dbHelperFapp.close();
     }
 
     public void updateItem(Item item) {
-        dbHelperItem = new SQLiteHelperItem(context);
-        database = dbHelperItem.getWritableDatabase();
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SQLiteHelperItem.COLUMN_NAME, item.getName());
-        values.put(SQLiteHelperItem.COLUMN_QUANTITY, item.getQuantity());
-        values.put(SQLiteHelperItem.COLUMN_ID_TYPE, item.getType().getId());
-        values.put(SQLiteHelperItem.COLUMN_EXPIRY_DATE, item.getExpiryDate().getTimeInMillis());
-        values.put(SQLiteHelperItem.COLUMN_LAST_SYNC, item.getLastSync().getTimeInMillis());
-        database.update(SQLiteHelperItem.TABLE_NAME, values, "ID=?",
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_NAME, item.getName());
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_QUANTITY, item.getQuantity());
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE, item.getType().getId());
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_EXPIRY_DATE, item.getExpiryDate().getTimeInMillis());
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_LAST_SYNC, item.getLastSync().getTimeInMillis());
+        database.update(SQLiteHelperFapp.TABLE_ITEM_NAME, values, "ID=?",
                 new String[]{String.valueOf(item.getId())});
     }
 
     public ArrayList<Item> getContainerItems(int containerId) {
-        dbHelperItem = new SQLiteHelperItem(context);
-        database = dbHelperItem.getReadableDatabase();
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getReadableDatabase();
         ArrayList<Item> items = new ArrayList<>();
 
         Cursor cursor = database.rawQuery(QUERY_READ_ITEMS_CONTAINER,
@@ -184,19 +185,20 @@ public class FappDAO {
 
     private Item converterItem(Cursor cursor) {
         Item item = new Item();
-        item.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperItem.COLUMN_ID)));
-        item.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperItem.COLUMN_NAME)));
-        item.setQuantity(cursor.getInt(cursor.getColumnIndex(SQLiteHelperItem.COLUMN_QUANTITY)));
-        item.setType(getTypeByID(cursor.getInt(cursor.getColumnIndex(SQLiteHelperItem.COLUMN_ID_TYPE))));
+        item.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_ID)));
+        item.setName(cursor.getString(cursor.getColumnIndex("i."+SQLiteHelperFapp.COLUMN_ITEM_NAME)));
+        item.setQuantity(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_QUANTITY)));
+//        item.setType(getTypeByID(cursor.getInt(cursor.getColumnIndex(
+//                SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE))));
 
         GregorianCalendar expiryDate = new GregorianCalendar();
-        expiryDate.setGregorianChange(new Date(cursor.getInt(cursor.getColumnIndex(
-                SQLiteHelperItem.COLUMN_EXPIRY_DATE))));
+        long date = cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_EXPIRY_DATE));
+        expiryDate.setTimeInMillis(date);
         item.setExpiryDate(expiryDate);
 
         GregorianCalendar lastSync = new GregorianCalendar();
         lastSync.setGregorianChange(new Date(cursor.getInt(cursor.getColumnIndex(
-                SQLiteHelperItem.COLUMN_LAST_SYNC))));
+                SQLiteHelperFapp.COLUMN_ITEM_LAST_SYNC))));
         item.setLastSync(lastSync);
 
         return item;
@@ -205,12 +207,12 @@ public class FappDAO {
 
     //<editor-fold defaultstate="collapsed" desc="Type"
     private Type getTypeByID(int id){
-        dbHelperType = new SQLiteHelperType(context);
-        database = dbHelperType.getReadableDatabase();
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getReadableDatabase();
         Type type = new Type();
 
-        Cursor cursor = database.query(SQLiteHelperType.TABLE_NAME, null,
-                SQLiteHelperType.COLUMN_ID + "=?", new String[id], null, null, null);
+        Cursor cursor = database.query(SQLiteHelperFapp.TABLE_TYPE_NAME, null,
+                SQLiteHelperFapp.COLUMN_TYPE_ID + "=?", new String[id], null, null, null);
 
         cursor.moveToFirst();
         if(!cursor.isAfterLast()){
@@ -219,18 +221,18 @@ public class FappDAO {
 
         cursor.close();
         database.close();
-        dbHelperType.close();
+        dbHelperFapp.close();
 
         return type;
     }
 
     public ArrayList<Type> getAllType() {
-        dbHelperType = new SQLiteHelperType(context);
-        database = dbHelperType.getReadableDatabase();
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getReadableDatabase();
         ArrayList<Type> types = new ArrayList<>();
 
-        Cursor cursor = database.query(SQLiteHelperType.TABLE_NAME, null, null, null,
-                null, null, SQLiteHelperType.COLUMN_NAME);
+        Cursor cursor = database.query(SQLiteHelperFapp.TABLE_TYPE_NAME, null, null, null, null,
+                null, SQLiteHelperFapp.COLUMN_TYPE_NAME);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
@@ -240,24 +242,24 @@ public class FappDAO {
 
         cursor.close();
         database.close();
-        dbHelperType.close();
+        dbHelperFapp.close();
 
         return types;
     }
 
     private Type converterType (Cursor cursor) {
         Type type = new Type();
-        type.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperType.COLUMN_ID)));
-        type.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperType.COLUMN_NAME)));
+        type.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_ID)));
+        type.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_NAME)));
 
         GregorianCalendar freezerDuration = new GregorianCalendar();
         freezerDuration.setGregorianChange(new Date(cursor.getInt(cursor.getColumnIndex(
-                SQLiteHelperType.COLUMN_FREEZER_DURATION))));
+                SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION))));
         type.setFreezerDuration(freezerDuration);
 
         GregorianCalendar expiryDate = new GregorianCalendar();
         expiryDate.setGregorianChange(new Date(cursor.getInt(cursor.getColumnIndex(
-                SQLiteHelperType.COLUMN_DEFAULT_EXPIRY_DATE))));
+                SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE))));
         type.setDefaultExpiryDate(expiryDate);
 
         return type;
