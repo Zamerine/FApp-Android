@@ -87,9 +87,7 @@ public class DialogChooseTypeItem extends Dialog{
         }
 
         private void computeExpiredDateForFreezer() {
-            int p = spinnerType.getSelectedItemPosition();
             item.setExpiryDate(new GregorianCalendar());
-            int addm = types.get(spinnerType.getSelectedItemPosition()).getFreezerDuration();
             item.getExpiryDate().add(GregorianCalendar.MONTH, types.get(spinnerType.getSelectedItemPosition()).getFreezerDuration());
         }
     }

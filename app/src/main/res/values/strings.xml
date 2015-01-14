@@ -43,5 +43,11 @@
     <string name="error_item_expired_date">Please, choose an expired date!</string>
     <string name="title_dialog_add_item">New Item</string>
     <string name="label_type_item">Type:</string>
+    <string name="bnt_valid_edit">Edit</string>
+    <string name="bnt_delete_item">Delete item</string>
+    <string name="title_dialog_edit_item">Modification of</string>
+    <string name="label_edit_type_item">Type:</string>
+    <string name="label_edit_qty_item">Quantity:</string>
+    <string name="label_edit_expired_date_item">Expired date:</string>
 
 </resources>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import java.util.GregorianCalendar;
 
 import com.henallux.alex.fapp.adapter.ListItemAdapter;
 import com.henallux.alex.fapp.dialog.DialogChooseTypeItem;
+import com.henallux.alex.fapp.dialog.DialogEditItem;
 import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.model.Item;
 import com.henallux.alex.fapp.model.Type;
@@ -59,7 +61,7 @@ public class ContainerActivity extends ActionBarActivity {
         initListener();
 
         item = new Item();
-        new AsyncGetItemForContainer().execute(bundle.getInt("idContainer"));
+        new AsyncGetItemForContainer().execute(container.getIdCont());
     }
 
 
@@ -120,6 +122,7 @@ public class ContainerActivity extends ActionBarActivity {
     private void initListener(){
         addItemDateText.setOnClickListener(new OnClickListenerShowDatePickerDialog());
         addFoodBtn.setOnClickListener(new OnClickListenerAddFood());
+        listViewItems.setOnItemClickListener(new OnClickItemListener());
     }
 
     private void initContainer(int idContainer){
@@ -132,7 +135,7 @@ public class ContainerActivity extends ActionBarActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            GregorianCalendar expiredDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);//TODO vérifier que pas une date du passé
+            GregorianCalendar expiredDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
             item.setExpiryDate(expiredDate);
             addItemDateText.setText(formatter.format(expiredDate.getTime()));
         }
@@ -142,6 +145,24 @@ public class ContainerActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             datePickerExpired.show();
+        }
+    }
+
+    class OnClickItemListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            DialogEditItem dialog = new DialogEditItem(view.getContext(),
+                    listItemAdapter.getItems().get(position), container);
+            dialog.setTitle(getString(R.string.title_dialog_edit_item) + " " +
+                    container.getItems().get(position).getName());
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    new AsyncGetItemForContainer().execute(container.getIdCont());
+                }
+            });
+            dialog.show();
         }
     }
 
@@ -215,6 +236,7 @@ public class ContainerActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute (ArrayList<Item> result) {
+            container.setItems(result);
             listItemAdapter.setItems(result);
             listItemAdapter.notifyDataSetChanged();
         }

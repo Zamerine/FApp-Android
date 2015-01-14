@@ -52,4 +52,10 @@
     <string name="error_item_quantity">Veuillez donner une quantité non nul !</string>
     <string name="title_dialog_add_item">Nouveau item</string>
     <string name="label_type_item">Type:</string>
+    <string name="bnt_valid_edit">Editer</string>
+    <string name="bnt_delete_item">Supprimer item</string>
+    <string name="title_dialog_edit_item">Modification de</string>
+    <string name="label_edit_expired_date_item">Date de péremption:</string>
+    <string name="label_edit_qty_item">Quantité:</string>
+    <string name="label_edit_type_item">Type:</string>
 </resources>
