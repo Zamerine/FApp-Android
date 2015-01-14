@@ -203,6 +203,10 @@ public class FappDAO {
         item.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_ID)));
         item.setName(cursor.getString(cursor.getColumnIndex("i." + SQLiteHelperFapp.COLUMN_ITEM_NAME)));
         item.setQuantity(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_QUANTITY)));
+        item.setType(new Type(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_ID)),
+                cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_NAME)),
+                cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION)),
+                cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE))));
 //        item.setType(getTypeByID(cursor.getInt(cursor.getColumnIndex(
 //                SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE))));TODO FAIRE lien avec Type
 
