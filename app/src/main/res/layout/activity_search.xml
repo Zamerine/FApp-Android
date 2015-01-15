@@ -16,43 +16,66 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinContainer"
-        android:layout_below="@+id/contenComboTitle"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:spinnerMode="dropdown" />
+        android:gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/containerText"
-        android:id="@+id/contenComboTitle"
-        android:layout_marginTop="41dp"
-        android:layout_below="@+id/searchView"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/foodTypeTitle"
-        android:id="@+id/typeFoodSpinTitle"
-        android:layout_below="@+id/spinContainer"
-        android:layout_centerHorizontal="true" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerTypeFood"
-        android:layout_below="@+id/typeFoodSpinTitle"
+        android:id="@+id/editSearchName"
+        android:queryHint="@string/search"
+        android:layout_alignTop="@+id/editSearchName"
         android:layout_centerHorizontal="true"
-        android:spinnerMode="dropdown" />
+        android:hint="@string/SearchName"
+        android:layout_below="@+id/appTitle"
+        android:layout_marginTop="20dp"
+        android:text="@string/search" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutSearchContainer"
+        android:layout_below="@+id/editSearchName"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/containerText"
+            android:id="@+id/checkBoxSearchContainer"
+            android:checked="false" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinContainer"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutSearchTypeItem"
+        android:layout_below="@+id/layoutSearchContainer"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/foodTypeTitle"
+            android:id="@+id/checkBoxSearchTypeItem"
+            android:checked="false" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerTypeFood"
+            android:spinnerMode="dropdown" />
+     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,8 +83,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/seekNbDaysPeremp"
         android:id="@+id/seekNbDays"
-        android:layout_below="@+id/spinnerTypeFood"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/layoutSearchTypeItem"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
     <SeekBar
         android:layout_width="wrap_content"
@@ -71,10 +95,11 @@
         android:progress="1"
         android:indeterminate="false"
         android:layout_below="@+id/seekNbDays"
-        android:layout_alignRight="@+id/typeFoodSpinTitle"
-        android:layout_alignEnd="@+id/typeFoodSpinTitle"
-        android:layout_alignLeft="@+id/typeFoodSpinTitle"
-        android:layout_alignStart="@+id/typeFoodSpinTitle" />
+        android:layout_centerHorizontal="true"
+        android:layout_alignStart="@id/seekNbDays"
+        android:layout_alignLeft="@id/seekNbDays"
+        android:layout_alignEnd="@id/seekNbDays"
+        android:layout_alignRight="@id/seekNbDays"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -102,11 +127,16 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <SearchView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/searchView"
-        android:queryHint="@string/search"
-        android:layout_alignTop="@+id/searchView"
-        android:layout_centerHorizontal="true" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:id="@+id/showNbDays"
+        android:layout_below="@+id/layoutSearchTypeItem"
+        android:layout_toRightOf="@+id/seekNbDays"
+        android:layout_toEndOf="@+id/seekNbDays"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@id/seekNbDays"/>
+
 </RelativeLayout>

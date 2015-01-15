@@ -86,4 +86,9 @@ public class Container {
     public void setAzureId(String azureId) {
         this.azureId = azureId;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
