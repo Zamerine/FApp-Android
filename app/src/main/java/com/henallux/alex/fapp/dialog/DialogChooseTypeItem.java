@@ -80,19 +80,15 @@ public class DialogChooseTypeItem extends Dialog{
             item.setType(types.get(spinnerType.getSelectedItemPosition()));
             if(container.getType() == Container.TYPE_FREEZER)
                 computeExpiredDateForFreezer();
-            item.setLastSync(new Date());
+            item.setLastSync(new GregorianCalendar());
             FappDAO fappDAO = new FappDAO(getContext());
             fappDAO.createItem(item, container);
             DialogChooseTypeItem.this.dismiss();
         }
 
         private void computeExpiredDateForFreezer() {
-            item.getExpiryDate().setYear(types.get(spinnerType.
-                    getSelectedItemPosition()).getFreezerDuration().getYear());
-            item.getExpiryDate().setMonth( types.get(spinnerType.
-                    getSelectedItemPosition()).getFreezerDuration().getMonth());
-            item.getExpiryDate().setDate(types.get(spinnerType.
-                    getSelectedItemPosition()).getFreezerDuration().getDate());
+            item.setExpiryDate(new GregorianCalendar());
+            item.getExpiryDate().add(GregorianCalendar.MONTH, types.get(spinnerType.getSelectedItemPosition()).getFreezerDuration());
         }
     }
     private class OnClickBack implements View.OnClickListener {

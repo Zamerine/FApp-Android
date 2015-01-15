@@ -45,7 +45,7 @@ public class FappDAO {
         values.put(SQLiteHelperFapp.COLUMN_CONTAINER_NAME, container.getName());
         values.put(SQLiteHelperFapp.COLUMN_CONTAINER_TYPE, container.getType());
         values.put(SQLiteHelperFapp.COLUMN_CONTAINER_LAST_SYNC,
-                formatter.format(container.getLastSync()));
+                formatter.format(container.getLastSync().getTime()));
         database.insert(SQLiteHelperFapp.TABLE_CONTAINER_NAME, null, values);
         database.close();
         dbHelperFapp.close();
@@ -119,12 +119,14 @@ public class FappDAO {
         container.setIdCont(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_ID)));
         container.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_NAME)));
         container.setType(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_TYPE)));
+        GregorianCalendar lastSync = new GregorianCalendar();
         try {
-            container.setLastSync(formatter.parse(cursor.getString(cursor.getColumnIndex(
+            lastSync.setGregorianChange(formatter.parse(cursor.getString(cursor.getColumnIndex(
                     SQLiteHelperFapp.COLUMN_CONTAINER_LAST_SYNC))));
         } catch (ParseException e) {
             //TODO gérer une erreur
         }
+        container.setLastSync(lastSync);
         return container;
     }
     //</editor-fold>
@@ -201,21 +203,28 @@ public class FappDAO {
         item.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_ID)));
         item.setName(cursor.getString(cursor.getColumnIndex("i." + SQLiteHelperFapp.COLUMN_ITEM_NAME)));
         item.setQuantity(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_QUANTITY)));
-//        item.setType(getTypeByID(cursor.getInt(cursor.getColumnIndex(
-//                SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE))));TODO FAIRE lien avec Type
+        item.setType(new Type(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_ID)),
+                cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_NAME)),
+                cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION)),
+                cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE))));
+
+        GregorianCalendar expiryDate = new GregorianCalendar();
         try {
-            item.setExpiryDate(formatter.parse(cursor.getString(cursor.getColumnIndex(
+            expiryDate.setTime(formatter.parse(cursor.getString(cursor.getColumnIndex(
                     SQLiteHelperFapp.COLUMN_ITEM_EXPIRY_DATE))));
         } catch (ParseException e) {
             //TODO gérer une erreur
         }
+        item.setExpiryDate(expiryDate);
 
+        GregorianCalendar lastSync = new GregorianCalendar();
         try {
-            item.setLastSync(formatter.parse(cursor.getString(cursor.getColumnIndex(
+            lastSync.setTime(formatter.parse(cursor.getString(cursor.getColumnIndex(
                     SQLiteHelperFapp.COLUMN_ITEM_LAST_SYNC))));
         } catch (ParseException e) {
             //TODO gérer une erreur
         }
+        item.setLastSync(lastSync);
 
         return item;
     }
@@ -267,20 +276,10 @@ public class FappDAO {
         Type type = new Type();
         type.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_ID)));
         type.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_NAME)));
-
-        try {
-            type.setFreezerDuration(formatter.parse(cursor.getString(cursor.getColumnIndex(
-                    SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION))));
-        } catch (ParseException e) {
-            //TODO gérer une erreur
-        }
-
-        try {
-            type.setDefaultExpiryDate(formatter.parse(cursor.getString(cursor.getColumnIndex(
-                    SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE))));
-        } catch (ParseException e) {
-            //TODO gérer une erreur
-        }
+        type.setFreezerDuration(cursor.getInt(cursor.getColumnIndex(
+                SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION)));
+        type.setDefaultExpiryDate(cursor.getInt(cursor.getColumnIndex(
+                SQLiteHelperFapp.COLUMN_TYPE_DEFAULT_EXPIRY_DATE)));
 
         return type;
     }

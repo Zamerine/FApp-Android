@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -19,11 +20,11 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.henallux.alex.fapp.adapter.ListItemAdapter;
 import com.henallux.alex.fapp.dialog.DialogChooseTypeItem;
+import com.henallux.alex.fapp.dialog.DialogEditItem;
 import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.model.Item;
 import com.henallux.alex.fapp.model.Type;
@@ -60,7 +61,7 @@ public class ContainerActivity extends ActionBarActivity {
         initListener();
 
         item = new Item();
-        new AsyncGetItemForContainer().execute(bundle.getInt("idContainer"));
+        new AsyncGetItemForContainer().execute(container.getIdCont());
     }
 
 
@@ -116,11 +117,13 @@ public class ContainerActivity extends ActionBarActivity {
         Calendar now = Calendar.getInstance();
         datePickerExpired = new DatePickerDialog(this,new OnExpiredDateSetListener(),
                 now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+        datePickerExpired.setTitle(getString(R.string.columnExpiration));
     }
 
     private void initListener(){
         addItemDateText.setOnClickListener(new OnClickListenerShowDatePickerDialog());
         addFoodBtn.setOnClickListener(new OnClickListenerAddFood());
+        listViewItems.setOnItemClickListener(new OnClickItemListener());
     }
 
     private void initContainer(int idContainer){
@@ -133,7 +136,7 @@ public class ContainerActivity extends ActionBarActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            Date expiredDate = new Date(year, monthOfYear, dayOfMonth);//TODO vérifier que pas une date du passé
+            GregorianCalendar expiredDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
             item.setExpiryDate(expiredDate);
             addItemDateText.setText(formatter.format(expiredDate.getTime()));
         }
@@ -143,6 +146,24 @@ public class ContainerActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             datePickerExpired.show();
+        }
+    }
+
+    class OnClickItemListener implements AdapterView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            DialogEditItem dialog = new DialogEditItem(view.getContext(),
+                    listItemAdapter.getItems().get(position), container);
+            dialog.setTitle(getString(R.string.title_dialog_edit_item) + " " +
+                    container.getItems().get(position).getName());
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    new AsyncGetItemForContainer().execute(container.getIdCont());
+                }
+            });
+            dialog.show();
         }
     }
 
@@ -196,10 +217,12 @@ public class ContainerActivity extends ActionBarActivity {
     }
 
     private boolean expiredDateIsCorrect() {
-        if( addItemDateText.getText().toString().isEmpty() &&
-                container.getType() == Container.TYPE_FRIGO)
+        if(container.getType() == Container.TYPE_FREEZER)
+            return true;
+        if(addItemDateText.getText().toString().isEmpty()) {
             return false;
-        return item.getExpiryDate().compareTo(new Date()) > 0;
+        }
+        return item.getExpiryDate().compareTo(new GregorianCalendar()) > 0;
     }
 
     //asyncTask
@@ -214,6 +237,7 @@ public class ContainerActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute (ArrayList<Item> result) {
+            container.setItems(result);
             listItemAdapter.setItems(result);
             listItemAdapter.notifyDataSetChanged();
         }
