@@ -97,7 +97,7 @@ public class HomeActivity extends ActionBarActivity{
                         Toast.LENGTH_SHORT).show();
             } else {
                 Container container = new Container(null, addContText.getText().toString(),
-                        new Date(),chooseTypeCont.getSelectedItemPosition());
+                        new GregorianCalendar(),chooseTypeCont.getSelectedItemPosition());
                 FappDAO fappDAO = new FappDAO(HomeActivity.this);
                 fappDAO.createContainer(container);
                 addContText.setText("");

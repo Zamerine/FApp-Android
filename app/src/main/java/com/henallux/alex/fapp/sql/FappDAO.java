@@ -68,7 +68,8 @@ public class FappDAO {
         values.put(SQLiteHelperFapp.COLUMN_CONTAINER_NAME, container.getName());
         values.put(SQLiteHelperFapp.COLUMN_CONTAINER_LAST_SYNC,
                 formatter.format(container.getLastSync().getTime()));
-        database.update(SQLiteHelperFapp.TABLE_CONTAINER_NAME, values, "ID=" + container.getIdCont(), null);
+        database.update(SQLiteHelperFapp.TABLE_CONTAINER_NAME, values,
+                SQLiteHelperFapp.COLUMN_CONTAINER_ID + "=" + container.getIdCont(), null);
         database.close();
         dbHelperFapp.close();
     }
@@ -178,8 +179,8 @@ public class FappDAO {
                 formatter.format(item.getExpiryDate().getTime()));
         values.put(SQLiteHelperFapp.COLUMN_ITEM_LAST_SYNC,
                 formatter.format(item.getLastSync().getTime()));
-        database.update(SQLiteHelperFapp.TABLE_ITEM_NAME, values, "ID=?",
-                new String[]{String.valueOf(item.getId())});
+        database.update(SQLiteHelperFapp.TABLE_ITEM_NAME, values,
+                SQLiteHelperFapp.COLUMN_ITEM_ID + "=?", new String[]{String.valueOf(item.getId())});
     }
 
     public ArrayList<Item> getContainerItems(int containerId) {

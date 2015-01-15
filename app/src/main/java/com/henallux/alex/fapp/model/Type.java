@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
  */
 public class Type {
     private int id;
+    private String azureId;
     private String name;
     private Integer freezerDuration;
     private Integer defaultExpiryDate;
@@ -57,6 +58,14 @@ public class Type {
 
     public void setDefaultExpiryDate(Integer defaultExpiryDate) {
         this.defaultExpiryDate = defaultExpiryDate;
+    }
+
+    public String getAzureId() {
+        return azureId;
+    }
+
+    public void setAzureId(String azureId) {
+        this.azureId = azureId;
     }
 
     @Override

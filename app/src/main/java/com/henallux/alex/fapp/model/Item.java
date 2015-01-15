@@ -8,25 +8,19 @@ import java.util.GregorianCalendar;
  */
 public class Item {
 
-    @com.google.gson.annotations.SerializedName("id")
-    private String mId;
+    private String azureId;
     private Integer id;
-    @com.google.gson.annotations.SerializedName("name")
     private String name;
-    @com.google.gson.annotations.SerializedName("expiryDate")
-    private Date expiryDate;
-    @com.google.gson.annotations.SerializedName("quantity")
+    private GregorianCalendar expiryDate;
     private int quantity;
-    @com.google.gson.annotations.SerializedName("type")
     private Type type;
-    @com.google.gson.annotations.SerializedName("lastSync")
-    private Date lastSync;
+    private GregorianCalendar lastSync;
 
     public Item() {
     }
 
-    public Item(Integer id, String name, Date expiryDate, int quantity, Type type,
-                Date lastSync) {
+    public Item(Integer id, String name, GregorianCalendar expiryDate, int quantity, Type type,
+                GregorianCalendar lastSync) {
         this.id = id;
         this.name = name;
         this.expiryDate = expiryDate;
@@ -67,23 +61,23 @@ public class Item {
         this.type = type;
     }
 
-    public Date getExpiryDate() {
+    public GregorianCalendar getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(GregorianCalendar expiryDate) {
         this.expiryDate = expiryDate;
     }
 
-    public Date getLastSync() {
+    public GregorianCalendar getLastSync() {
         return lastSync;
     }
 
-    public void setLastSync(Date lastSync) {
+    public void setLastSync(GregorianCalendar lastSync) {
         this.lastSync = lastSync;
     }
 
-    public String getmId() {return mId;}
+    public String getAzureId() {return azureId;}
 
-    public void setmId(String mId) {this.mId = mId;    }
+    public void setAzureId(String azureId) {this.azureId = azureId;    }
 }

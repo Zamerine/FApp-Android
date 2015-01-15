@@ -11,22 +11,18 @@ public class Container {
     public static final int TYPE_FRIGO = 0;
     public static final int TYPE_FREEZER = 1;
 
-    @com.google.gson.annotations.SerializedName("id")
-    private String mId;
+    private String azureId;
     private Integer id;
-    @com.google.gson.annotations.SerializedName("name")
     private String name;
-    @com.google.gson.annotations.SerializedName("lastSync")
-    private Date lastSync;
+    private GregorianCalendar lastSync;
     private ArrayList<Item> items;
-    @com.google.gson.annotations.SerializedName("type")
     private int type;
 
     public Container() {
         items = new ArrayList<>();
     }
 
-    public Container(Integer idCont, String name, Date lastSync, int type) {
+    public Container(Integer idCont, String name, GregorianCalendar lastSync, int type) {
         this();
         this.id = idCont;
         this.name = name;
@@ -34,7 +30,7 @@ public class Container {
         this.lastSync=lastSync;
     }
 
-    public Container(Integer idCont, String name, Date lastSync, ArrayList<Item> items,
+    public Container(Integer idCont, String name, GregorianCalendar lastSync, ArrayList<Item> items,
                      int type) {
         this.id = idCont;
         this.name = name;
@@ -43,11 +39,11 @@ public class Container {
         this.type = type;
     }
 
-    public Date getLastSync() {
+    public GregorianCalendar getLastSync() {
         return lastSync;
     }
 
-    public void setLastSync(Date lastSync) {
+    public void setLastSync(GregorianCalendar lastSync) {
         this.lastSync = lastSync;
     }
 
@@ -81,5 +77,13 @@ public class Container {
 
     public void setItems(ArrayList<Item> items) {
         this.items = items;
+    }
+
+    public String getAzureId() {
+        return azureId;
+    }
+
+    public void setAzureId(String azureId) {
+        this.azureId = azureId;
     }
 }
