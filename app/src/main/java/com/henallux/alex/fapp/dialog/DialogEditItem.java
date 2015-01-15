@@ -95,6 +95,7 @@ public class DialogEditItem extends Dialog {
         datePickerExpired = new DatePickerDialog(getContext(),new OnExpiredDateSetListener(),
                 item.getExpiryDate().get(Calendar.YEAR), item.getExpiryDate().get(Calendar.MONTH),
                 item.getExpiryDate().get(Calendar.DAY_OF_MONTH));
+        datePickerExpired.setTitle(getContext().getString(R.string.columnExpiration));
     }
 
     //Listener

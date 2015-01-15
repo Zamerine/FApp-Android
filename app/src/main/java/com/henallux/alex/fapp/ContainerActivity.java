@@ -117,6 +117,7 @@ public class ContainerActivity extends ActionBarActivity {
         Calendar now = Calendar.getInstance();
         datePickerExpired = new DatePickerDialog(this,new OnExpiredDateSetListener(),
                 now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+        datePickerExpired.setTitle(getString(R.string.columnExpiration));
     }
 
     private void initListener(){
