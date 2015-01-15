@@ -12,15 +12,15 @@ public class ItemAzure {
 
     @com.google.gson.annotations.SerializedName("id")
     private String azureId;
-    @com.google.gson.annotations.SerializedName("id")
+    @com.google.gson.annotations.SerializedName("name")
     private String name;
-    @com.google.gson.annotations.SerializedName("id")
+    @com.google.gson.annotations.SerializedName("expiryDate")
     private Date expiryDate;
-    @com.google.gson.annotations.SerializedName("id")
+    @com.google.gson.annotations.SerializedName("quantity")
     private int quantity;
-    @com.google.gson.annotations.SerializedName("id")
+    @com.google.gson.annotations.SerializedName("type")
     private String type;
-    @com.google.gson.annotations.SerializedName("id")
+    @com.google.gson.annotations.SerializedName("lastSync")
     private Date lastSync;
 
     public ItemAzure() {

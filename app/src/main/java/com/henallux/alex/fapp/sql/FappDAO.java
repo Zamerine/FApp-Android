@@ -315,6 +315,7 @@ public class FappDAO {
         Type type = new Type();
         type.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_ID)));
         type.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_NAME)));
+        type.setAzureId(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_AZUREID)));
         type.setFreezerDuration(cursor.getInt(cursor.getColumnIndex(
                 SQLiteHelperFapp.COLUMN_TYPE_FREEZER_DURATION)));
         type.setDefaultExpiryDate(cursor.getInt(cursor.getColumnIndex(

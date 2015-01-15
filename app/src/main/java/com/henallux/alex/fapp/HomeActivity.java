@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.henallux.alex.fapp.adapter.ListContainerAdapter;
 import com.henallux.alex.fapp.azure.AzureDAO;
 import com.henallux.alex.fapp.azure.ContainerAzure;
+import com.henallux.alex.fapp.azure.TypeAzure;
 import com.henallux.alex.fapp.dialog.DialogEditContainer;
 import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.sql.FappDAO;

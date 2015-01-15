@@ -8,7 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.henallux.alex.fapp.ContainerActivity;
 import com.henallux.alex.fapp.R;
+import com.henallux.alex.fapp.azure.AzureDAO;
+import com.henallux.alex.fapp.azure.ContainerAzure;
+import com.henallux.alex.fapp.azure.ItemAzure;
 import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.model.Item;
 import com.henallux.alex.fapp.model.Type;
@@ -83,6 +87,11 @@ public class DialogChooseTypeItem extends Dialog{
             item.setLastSync(new GregorianCalendar());
             FappDAO fappDAO = new FappDAO(getContext());
             fappDAO.createItem(item, container);
+
+            AzureDAO azureDAO = new AzureDAO();
+            ItemAzure itemAzure=new ItemAzure(item.getName(),item.getExpiryDate().getTime(),item.getQuantity(),item.getType().getAzureId(),item.getLastSync().getTime());
+            azureDAO.addItem(itemAzure, getContext());
+
             DialogChooseTypeItem.this.dismiss();
         }
 

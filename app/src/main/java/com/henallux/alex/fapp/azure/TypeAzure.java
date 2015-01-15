@@ -3,7 +3,7 @@ package com.henallux.alex.fapp.azure;
 /**
  * Created by Alex on 15/01/2015.
  */
-public class TypeAzure {private int id;
+public class TypeAzure {
     @com.google.gson.annotations.SerializedName("id")
     private String azureId;
     @com.google.gson.annotations.SerializedName("name")
@@ -13,28 +13,18 @@ public class TypeAzure {private int id;
     @com.google.gson.annotations.SerializedName("defaultExpiryDate")
     private Integer defaultExpiryDate;
 
-    public TypeAzure() {
+    public TypeAzure() {this.azureId="";
     }
 
-    public TypeAzure(int id, String name, Integer freezerDuration, Integer defaultExpiryDate) {
-        this.id = id;
+    public TypeAzure(String name, Integer freezerDuration, Integer defaultExpiryDate) {
         this.name = name;
         this.freezerDuration = freezerDuration;
         this.defaultExpiryDate = defaultExpiryDate;
     }
 
-    public TypeAzure(int id, String name, Integer freezerDuration) {
-        this.id = id;
+    public TypeAzure(String name, Integer freezerDuration) {
         this.name = name;
         this.freezerDuration = freezerDuration;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
