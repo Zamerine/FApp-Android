@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.henallux.alex.fapp.adapter.ListContainerAdapter;
+import com.henallux.alex.fapp.azure.AzureDAO;
+import com.henallux.alex.fapp.azure.ContainerAzure;
 import com.henallux.alex.fapp.dialog.DialogEditContainer;
 import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.sql.FappDAO;
@@ -100,6 +102,11 @@ public class HomeActivity extends ActionBarActivity{
                         new GregorianCalendar(),chooseTypeCont.getSelectedItemPosition());
                 FappDAO fappDAO = new FappDAO(HomeActivity.this);
                 fappDAO.createContainer(container);
+
+                AzureDAO azureDAO=new AzureDAO();
+                ContainerAzure containerAzure = new ContainerAzure(container.getName(),container.getLastSync().getTime(),container.getType());
+                azureDAO.addContainer(containerAzure, HomeActivity.this);
+
                 addContText.setText("");
                 Toast.makeText(HomeActivity.this, getString(R.string.toast_add_container),
                         Toast.LENGTH_LONG).show();

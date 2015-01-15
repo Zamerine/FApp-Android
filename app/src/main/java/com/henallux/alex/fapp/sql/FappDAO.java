@@ -130,6 +130,25 @@ public class FappDAO {
         container.setLastSync(lastSync);
         return container;
     }
+
+    public Integer getLastIdContainer(){
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getReadableDatabase();
+        Integer lastid = null;
+
+        Cursor cursor = database.query(SQLiteHelperFapp.TABLE_CONTAINER_NAME, null, null, null, null, null, SQLiteHelperFapp.COLUMN_CONTAINER_ID + " DESC");
+
+        cursor.moveToFirst();
+        if(!cursor.isAfterLast()){
+            lastid = cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_ID));
+        }
+
+        cursor.close();
+        database.close();
+        dbHelperFapp.close();
+
+        return lastid;
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="item">
@@ -228,6 +247,25 @@ public class FappDAO {
         item.setLastSync(lastSync);
 
         return item;
+    }
+
+    public Integer getLastIdItem(){
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getReadableDatabase();
+        Integer lastid = null;
+
+        Cursor cursor = database.query(SQLiteHelperFapp.TABLE_ITEM_NAME, null, null, null, null, null, SQLiteHelperFapp.COLUMN_ITEM_ID + " DESC");
+
+        cursor.moveToFirst();
+        if(!cursor.isAfterLast()){
+            lastid = cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_ID));
+        }
+
+        cursor.close();
+        database.close();
+        dbHelperFapp.close();
+
+        return lastid;
     }
     //</editor-fold>
 
