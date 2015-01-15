@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +16,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.henallux.alex.fapp.adapter.ListContainerAdapter;
+import com.henallux.alex.fapp.azure.AzureDAO;
 import com.henallux.alex.fapp.dialog.DialogEditContainer;
 import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.sql.FappDAO;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
+
 
 
 public class HomeActivity extends ActionBarActivity{
@@ -98,8 +98,14 @@ public class HomeActivity extends ActionBarActivity{
             } else {
                 Container container = new Container(null, addContText.getText().toString(),
                         new Date(),chooseTypeCont.getSelectedItemPosition());
+
                 FappDAO fappDAO = new FappDAO(HomeActivity.this);
                 fappDAO.createContainer(container);
+
+                container.setIdAndroid(fappDAO.getLastIdContainer());
+                AzureDAO azureDAO= new AzureDAO();
+                azureDAO.addContainer(container, HomeActivity.this);
+
                 addContText.setText("");
                 Toast.makeText(HomeActivity.this, getString(R.string.toast_add_container),
                         Toast.LENGTH_LONG).show();
@@ -114,7 +120,7 @@ public class HomeActivity extends ActionBarActivity{
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(HomeActivity.this, ContainerActivity.class);
             intent.putExtra("idContainer",
-                    listContainerAdapter.getContainers().get(position).getIdCont());
+                    listContainerAdapter.getContainers().get(position).getIdAndroid());
             startActivity(intent);
         }
     }

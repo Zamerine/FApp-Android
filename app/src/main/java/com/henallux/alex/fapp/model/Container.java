@@ -13,35 +13,34 @@ public class Container {
 
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
-    private Integer id;
+    @com.google.gson.annotations.SerializedName("idAndroid")
+    private Integer idAndroid;
     @com.google.gson.annotations.SerializedName("name")
     private String name;
     @com.google.gson.annotations.SerializedName("lastSync")
     private Date lastSync;
-    private ArrayList<Item> items;
+    //private ArrayList<Item> items;
     @com.google.gson.annotations.SerializedName("type")
     private int type;
 
-    public Container() {
-        items = new ArrayList<>();
-    }
+    public Container() {/*items = new ArrayList<>();*/   }
 
-    public Container(Integer idCont, String name, Date lastSync, int type) {
+    public Container(Integer idAndroid, String name, Date lastSync, int type) {
         this();
-        this.id = idCont;
+        this.idAndroid = idAndroid;
         this.name = name;
         this.type = type;
         this.lastSync=lastSync;
     }
 
-    public Container(Integer idCont, String name, Date lastSync, ArrayList<Item> items,
+    /*public Container(Integer idCont, String name, Date lastSync, ArrayList<Item> items,
                      int type) {
-        this.id = idCont;
+        this.idAndroid = idCont;
         this.name = name;
         this.lastSync = lastSync;
         this.items = items;
         this.type = type;
-    }
+    }*/
 
     public Date getLastSync() {
         return lastSync;
@@ -51,12 +50,12 @@ public class Container {
         this.lastSync = lastSync;
     }
 
-    public Integer getIdCont() {
-        return id;
+    public Integer getIdAndroid() {
+        return idAndroid;
     }
 
-    public void setIdCont(int id) {
-        this.id = id;
+    public void setIdAndroid(int idAndroid) {
+        this.idAndroid = idAndroid;
     }
 
     public int getType() {
@@ -75,11 +74,15 @@ public class Container {
         this.name = name;
     }
 
-    public ArrayList<Item> getItems() {
+    /*public ArrayList<Item> getItems() {
         return items;
     }
 
     public void setItems(ArrayList<Item> items) {
         this.items = items;
-    }
+    }*/
+
+    public String getmId() {return mId;    }
+
+    public void setmId(String mId) {this.mId = mId;    }
 }

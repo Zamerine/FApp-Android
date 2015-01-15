@@ -20,13 +20,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import com.henallux.alex.fapp.adapter.ListItemAdapter;
 import com.henallux.alex.fapp.dialog.DialogChooseTypeItem;
 import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.model.Item;
-import com.henallux.alex.fapp.model.Type;
 import com.henallux.alex.fapp.sql.FappDAO;
 
 
@@ -47,6 +45,7 @@ public class ContainerActivity extends ActionBarActivity {
     private Button addFoodBtn;
     private DatePickerDialog datePickerExpired;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +61,6 @@ public class ContainerActivity extends ActionBarActivity {
         item = new Item();
         new AsyncGetItemForContainer().execute(bundle.getInt("idContainer"));
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -158,7 +156,7 @@ public class ContainerActivity extends ActionBarActivity {
                 dialog.setOnDismissListener( new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        new AsyncGetItemForContainer().execute(container.getIdCont());
+                        new AsyncGetItemForContainer().execute(container.getIdAndroid());
                         addItemNameText.setText("");
                         addItemQtyText.setText("");
                         addItemDateText.setText("");

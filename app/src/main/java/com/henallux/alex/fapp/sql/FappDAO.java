@@ -56,7 +56,7 @@ public class FappDAO {
         dbHelperFapp = new SQLiteHelperFapp(context);
         database = dbHelperFapp.getWritableDatabase();
         database.delete(SQLiteHelperFapp.TABLE_CONTAINER_NAME,
-                SQLiteHelperFapp.COLUMN_CONTAINER_ID + " = " + container.getIdCont(), null);
+                SQLiteHelperFapp.COLUMN_CONTAINER_ID + " = " + container.getIdAndroid(), null);
         database.close();
         dbHelperFapp.close();
     }
@@ -68,7 +68,7 @@ public class FappDAO {
         values.put(SQLiteHelperFapp.COLUMN_CONTAINER_NAME, container.getName());
         values.put(SQLiteHelperFapp.COLUMN_CONTAINER_LAST_SYNC,
                 formatter.format(container.getLastSync().getTime()));
-        database.update(SQLiteHelperFapp.TABLE_CONTAINER_NAME, values, "ID=" + container.getIdCont(), null);
+        database.update(SQLiteHelperFapp.TABLE_CONTAINER_NAME, values, "ID=" + container.getIdAndroid(), null);
         database.close();
         dbHelperFapp.close();
     }
@@ -114,9 +114,28 @@ public class FappDAO {
         return containers;
     }
 
+    public Integer getLastIdContainer(){
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getReadableDatabase();
+        Integer lastid = null;
+
+        Cursor cursor = database.query(SQLiteHelperFapp.TABLE_CONTAINER_NAME, null, null, null, null, null, SQLiteHelperFapp.COLUMN_CONTAINER_ID + " DESC");
+
+        cursor.moveToFirst();
+        if(!cursor.isAfterLast()){
+            lastid = cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_ID));
+        }
+
+        cursor.close();
+        database.close();
+        dbHelperFapp.close();
+
+        return lastid;
+    }
+
     private Container converterContainer(Cursor cursor) {
         Container container = new Container();
-        container.setIdCont(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_ID)));
+        container.setIdAndroid(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_ID)));
         container.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_NAME)));
         container.setType(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_CONTAINER_TYPE)));
         try {
@@ -136,8 +155,8 @@ public class FappDAO {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelperFapp.COLUMN_ITEM_NAME, item.getName());
         values.put(SQLiteHelperFapp.COLUMN_ITEM_QUANTITY, item.getQuantity());
-        values.put(SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE, item.getType().getId());
-        values.put(SQLiteHelperFapp.COLUMN_ITEM_ID_CONTAINER, container.getIdCont());
+        //values.put(SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE, item.getType().getmId());
+        values.put(SQLiteHelperFapp.COLUMN_ITEM_ID_CONTAINER, container.getIdAndroid());
         values.put(SQLiteHelperFapp.COLUMN_ITEM_EXPIRY_DATE,
                 formatter.format(item.getExpiryDate().getTime()));
         values.put(SQLiteHelperFapp.COLUMN_ITEM_LAST_SYNC,
@@ -151,7 +170,7 @@ public class FappDAO {
         dbHelperFapp = new SQLiteHelperFapp(context);
         database = dbHelperFapp.getWritableDatabase();
         database.delete(SQLiteHelperFapp.TABLE_ITEM_NAME,
-                SQLiteHelperFapp.COLUMN_ITEM_ID + " = " + item.getId(), null);
+                SQLiteHelperFapp.COLUMN_ITEM_ID + " = " + item.getIdAndroid(), null);
         database.close();
         dbHelperFapp.close();
     }
@@ -160,7 +179,7 @@ public class FappDAO {
         dbHelperFapp = new SQLiteHelperFapp(context);
         database = dbHelperFapp.getWritableDatabase();
         database.delete(SQLiteHelperFapp.TABLE_ITEM_NAME, SQLiteHelperFapp.COLUMN_ITEM_ID_CONTAINER
-                + "= " + container.getIdCont(),null);
+                + "= " + container.getIdAndroid(),null);
         database.close();
         dbHelperFapp.close();
     }
@@ -171,13 +190,13 @@ public class FappDAO {
         ContentValues values = new ContentValues();
         values.put(SQLiteHelperFapp.COLUMN_ITEM_NAME, item.getName());
         values.put(SQLiteHelperFapp.COLUMN_ITEM_QUANTITY, item.getQuantity());
-        values.put(SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE, item.getType().getId());
+        //values.put(SQLiteHelperFapp.COLUMN_ITEM_ID_TYPE, item.getType().getmId());
         values.put(SQLiteHelperFapp.COLUMN_ITEM_EXPIRY_DATE,
                 formatter.format(item.getExpiryDate().getTime()));
         values.put(SQLiteHelperFapp.COLUMN_ITEM_LAST_SYNC,
                 formatter.format(item.getLastSync().getTime()));
         database.update(SQLiteHelperFapp.TABLE_ITEM_NAME, values, "ID=?",
-                new String[]{String.valueOf(item.getId())});
+                new String[]{String.valueOf(item.getIdAndroid())});
     }
 
     public ArrayList<Item> getContainerItems(int containerId) {
@@ -198,7 +217,7 @@ public class FappDAO {
 
     private Item converterItem(Cursor cursor) {
         Item item = new Item();
-        item.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_ID)));
+        item.setIdAndroid(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_ID)));
         item.setName(cursor.getString(cursor.getColumnIndex("i." + SQLiteHelperFapp.COLUMN_ITEM_NAME)));
         item.setQuantity(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_QUANTITY)));
 //        item.setType(getTypeByID(cursor.getInt(cursor.getColumnIndex(
@@ -218,6 +237,25 @@ public class FappDAO {
         }
 
         return item;
+    }
+
+    public Integer getLastIdItem(){
+        dbHelperFapp = new SQLiteHelperFapp(context);
+        database = dbHelperFapp.getReadableDatabase();
+        Integer lastid = null;
+
+        Cursor cursor = database.query(SQLiteHelperFapp.TABLE_ITEM_NAME, null, null, null, null, null, SQLiteHelperFapp.COLUMN_ITEM_ID + " DESC");
+
+        cursor.moveToFirst();
+        if(!cursor.isAfterLast()){
+            lastid = cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_ITEM_ID));
+        }
+
+        cursor.close();
+        database.close();
+        dbHelperFapp.close();
+
+        return lastid;
     }
     //</editor-fold>
 
@@ -265,7 +303,7 @@ public class FappDAO {
 
     private Type converterType (Cursor cursor) {
         Type type = new Type();
-        type.setId(cursor.getInt(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_ID)));
+        type.setmId(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_ID)));
         type.setName(cursor.getString(cursor.getColumnIndex(SQLiteHelperFapp.COLUMN_TYPE_NAME)));
 
         try {

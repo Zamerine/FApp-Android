@@ -9,10 +9,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.henallux.alex.fapp.R;
+import com.henallux.alex.fapp.azure.AzureDAO;
 import com.henallux.alex.fapp.model.Container;
 import com.henallux.alex.fapp.model.Item;
 import com.henallux.alex.fapp.model.Type;
 import com.henallux.alex.fapp.sql.FappDAO;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -77,12 +79,17 @@ public class DialogChooseTypeItem extends Dialog{
 
         @Override
         public void onClick(View v) {
-            item.setType(types.get(spinnerType.getSelectedItemPosition()));
+            //item.setType(types.get(spinnerType.getSelectedItemPosition()));
             if(container.getType() == Container.TYPE_FREEZER)
                 computeExpiredDateForFreezer();
             item.setLastSync(new Date());
             FappDAO fappDAO = new FappDAO(getContext());
             fappDAO.createItem(item, container);
+
+            item.setIdAndroid(fappDAO.getLastIdItem());
+            AzureDAO azureDAO= new AzureDAO();
+            azureDAO.addItem(item, getContext());
+
             DialogChooseTypeItem.this.dismiss();
         }
 

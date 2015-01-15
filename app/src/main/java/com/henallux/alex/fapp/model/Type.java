@@ -9,7 +9,6 @@ import java.util.GregorianCalendar;
 public class Type {
     @com.google.gson.annotations.SerializedName("id")
     private String mId;
-    private int id;
     @com.google.gson.annotations.SerializedName("name")
     private String name;
     @com.google.gson.annotations.SerializedName("freezerDuration")
@@ -20,25 +19,25 @@ public class Type {
     public Type() {
     }
 
-    public Type(int id, String name, Date freezerDuration, Date defaultExpiryDate) {
-        this.id = id;
+    public Type(String mId, String name, Date freezerDuration, Date defaultExpiryDate) {
+        this.mId = mId;
         this.name = name;
         this.freezerDuration = freezerDuration;
         this.defaultExpiryDate = defaultExpiryDate;
     }
 
-    public Type(int id, String name, Date freezerDuration) {
-        this.id = id;
+    public Type(String mId, String name, Date freezerDuration) {
+        this.mId = mId;
         this.name = name;
         this.freezerDuration = freezerDuration;
     }
 
-    public int getId() {
-        return id;
+    public String getmId() {
+        return mId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setmId(String mId) {
+        this.mId = mId;
     }
 
     public String getName() {
